@@ -1,0 +1,131 @@
+.Transfers {
+    padding: 1rem;
+}
+
+.Transfers h2 {
+    font-size: 16px;
+}
+
+.table {
+    width: fit-content;
+    margin-top: 1rem;
+}
+
+.transfer-requests-sent {
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.transfers-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.transfers-search {
+    margin-right: 1rem;
+    width: 400px;
+}
+
+.transfers-header a {
+    text-decoration: none;
+    font-size: 14px;
+    color: #41d583;
+}
+
+.table-header,
+.table-body {
+    display: flex;
+}
+
+.table-header p {
+    background: #f7f9fa;
+    font-weight: bold;
+}
+
+.table-header p,
+.table-body p {
+    margin: 0;
+    white-space: nowrap;
+    padding: .5rem;
+    border: 1px solid #efefef;
+    font-size: 12px;
+    color: #464646;
+}
+
+.table-row {
+    display: flex;
+}
+
+/* Edit Button */
+.table-header p:nth-child(1),
+.table-body p:nth-child(1) {
+    width: 40px;
+    text-align: center;
+}
+
+/* Date */
+.table-header p:nth-child(2),
+.table-body p:nth-child(2) {
+    width: 120px;
+}
+
+/* Request By */
+.table-header p:nth-child(3),
+.table-body p:nth-child(3) {
+    width: 120px;
+}
+
+/* From Pharmacy */
+.table-header p:nth-child(4),
+.table-body p:nth-child(4) {
+    width: 160px;
+}
+
+/* To Pharmacy */
+.table-header p:nth-child(5),
+.table-body p:nth-child(5) {
+    width: 160px;
+}
+
+/* Patient Name */
+.table-header p:nth-child(6),
+.table-body p:nth-child(6) {
+    width: 160px;
+}
+
+/* Patient DOB */
+.table-header p:nth-child(7),
+.table-body p:nth-child(7) {
+    width: 140px;
+}
+
+/* Patient Phone Number */
+.table-header p:nth-child(8),
+.table-body p:nth-child(8) {
+    width: 160px;
+}
+
+/* Medication */
+.table-header p:nth-child(9),
+.table-body p:nth-child(9) {
+    width: 120px;
+}
+
+/* Status */
+.table-header p:nth-child(10),
+.table-body p:nth-child(10) {
+    width: 120px;
+}
+
+/* Completed By */
+.table-header p:nth-child(11),
+.table-body p:nth-child(11) {
+    width: 140px;
+}
+
+/* Completed At */
+.table-header p:nth-child(12),
+.table-body p:nth-child(12) {
+    width: 140px;
+}

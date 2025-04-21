@@ -1,0 +1,35 @@
+.PharmacySelection {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 999999;
+    height: 100vh;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: width .25s ease-in-out;
+    overflow: hidden;
+
+    /* Prevent text wrapping and layout shift */
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-sizing: border-box;
+}
+
+.pharmacy-selection-wrapper {
+    padding: 1rem;
+    width: calc(100% - 2rem);
+}
+
+.pharmacy-selection-wrapper ul {
+    padding: 0;
+}
+
+.pharmacy-selection-wrapper li {
+    list-style-type: none;
+    margin-bottom: .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

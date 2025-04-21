@@ -1,0 +1,79 @@
+.TransferForm {
+    display: flex;
+    background: #fff;
+    padding: 1rem;
+    font-family: sans-serif;
+    justify-content: space-around;
+    gap: 2rem;
+}
+
+h2 {
+    text-align: center;
+}
+
+.transfer-form {
+    width: 700px;
+}
+
+.transfer-form-wrapper {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 14px;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0 0.5rem;
+}
+
+label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+input {
+    width: calc(100% - 1rem);
+}
+
+select,
+.dropdown-button {
+    width: 100%;
+}
+
+.dropdown-button {
+    text-align: start;
+    background: transparent;
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+input,
+select,
+.dropdown-button {
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.error {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    font-size: 12px;
+}

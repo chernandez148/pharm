@@ -1,0 +1,28 @@
+.navbar {
+    height: calc(100vh - 36px);
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 18px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-logo {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #2C7BE5;
+    letter-spacing: 0.5px;
+}
+
+.navbar nav a {
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    font-size: 14px;
+}
