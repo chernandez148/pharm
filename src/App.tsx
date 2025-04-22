@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './redux/store';
 import LoginForm from './components/LoginForm/LoginForm';
-import Navbar from './components/Navbar/Navbar';
 import RequireAuth from './components/RequiredAuth/RequiredAuth';
 import TransferForm from './components/TransferForm/TransferForm';
 import { login as setLogin } from './redux/slices/authSlice';
@@ -9,6 +8,8 @@ import { Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import './App.css'
 import Transfers from './components/Transfers/Transfers';
+import Patients from './components/Patients/Patients';
+import Sidebar from './components/Sidebar/Sidebar';
 
 function App() {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
@@ -29,7 +30,7 @@ function App() {
 
   return (
     <div className='App'>
-      {isAuthenticated && <Navbar />}
+      {isAuthenticated && <Sidebar />}
       <div className='content'>
         <Routes>
           <Route path="/login" element={<LoginForm />} />
@@ -46,6 +47,14 @@ function App() {
             element={
               <RequireAuth>
                 <TransferForm />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/patients"
+            element={
+              <RequireAuth>
+                <Patients />
               </RequireAuth>
             }
           />
