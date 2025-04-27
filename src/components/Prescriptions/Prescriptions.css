@@ -1,0 +1,106 @@
+.Prescriptions {
+    padding: 1rem;
+}
+
+.prescriptions-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Prescriptions h3 {
+    text-align: center;
+}
+
+.prescriptions-wrapper {
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.Prescriptions .table-row button {
+    background-color: transparent;
+    border: 0;
+    font-size: 12px;
+    color: #464646;
+}
+
+.Prescriptions .table-row p {
+    overflow: hidden;
+}
+
+.Prescriptions .table-header p:nth-child(2),
+.Prescriptions .table-row p:nth-child(2) {
+    width: 140px;
+    /* Full Name */
+}
+
+.Prescriptions .table-header p:nth-child(3),
+.Prescriptions .table-row p:nth-child(3) {
+    width: 100px;
+    /* DOB */
+}
+
+.Prescriptions .table-header p:nth-child(4),
+.Prescriptions .table-row p:nth-child(4) {
+    width: 120px;
+    /* Phone Number */
+}
+
+.Prescriptions .table-header p:nth-child(5),
+.Prescriptions .table-row p:nth-child(5) {
+    width: 120px;
+    /* Medication */
+}
+
+.Prescriptions .table-header p:nth-child(6),
+.Prescriptions .table-row p:nth-child(6) {
+    width: 80px;
+    /* Dosage */
+}
+
+.Prescriptions .table-header p:nth-child(7),
+.Prescriptions .table-row p:nth-child(7) {
+    width: 250px;
+    /* Directions for Use */
+}
+
+.Prescriptions .table-header p:nth-child(8),
+.Prescriptions .table-row p:nth-child(8) {
+    width: 80px;
+    /* Quantity */
+}
+
+.Prescriptions .table-header p:nth-child(9),
+.Prescriptions .table-row p:nth-child(9) {
+    width: 80px;
+    /* Refills */
+}
+
+.Prescriptions .table-header p:nth-child(10),
+.Prescriptions .table-row p:nth-child(10) {
+    width: 140px;
+    /* Date of Prescription */
+}
+
+.Prescriptions .table-header p:nth-child(11),
+.Prescriptions .table-row p:nth-child(11) {
+    width: 140px;
+    /* Date Last Filled */
+}
+
+.Prescriptions .table-header p:nth-child(12),
+.Prescriptions .table-row p:nth-child(12) {
+    width: 160px;
+    /* Prescriber's Name */
+}
+
+.Prescriptions .table-header p:nth-child(13),
+.Prescriptions .table-row p:nth-child(13) {
+    width: 160px;
+    /* DEA Number */
+}
+
+.Prescriptions .table-header p:nth-child(14),
+.Prescriptions .table-row p:nth-child(14) {
+    width: 200px;
+    /* Contact Info */
+}

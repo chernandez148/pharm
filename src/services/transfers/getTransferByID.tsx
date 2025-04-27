@@ -1,7 +1,7 @@
 // services/transfers/getTransfersByPharmacyID.tsx
 
-const fetchPatientsByPharmacyID = async (pharmacyID: number) => {
-    const response = await fetch(`/${pharmacyID}/patients`);
+const fetchTransfersByID = async (id: number) => {
+    const response = await fetch(`/transfers/${id}`);
     if (!response.ok) {
         throw new Error("Failed to fetch transfers");
     }
@@ -9,11 +9,11 @@ const fetchPatientsByPharmacyID = async (pharmacyID: number) => {
     const data = await response.json(); // ✅ Await the JSON
 
     return {
-        patients: data.patients,
+        transfer: data.transfer,
         pagination: data.pagination,
     };
 
 };
 
 
-export default fetchPatientsByPharmacyID;
+export default fetchTransfersByID;

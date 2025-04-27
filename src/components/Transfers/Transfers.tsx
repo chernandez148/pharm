@@ -1,23 +1,22 @@
-import { Link } from 'react-router-dom'
 import './Transfer.css'
-import { useTransfersByPharmacy } from '../../hooks/useTransfers'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { formatDate } from '../../utils/dateUtils';
-import { usePharmacies } from '../../hooks/usePharmacies';
-import SearchForm from '../SearchForm/SearchForm';
+import { Link, useNavigate } from 'react-router-dom';
+import { useFetchByID } from '../../hooks/useFetchByID';
+import fetchTransfersByPharmacyID from '../../services/transfers/getTransfersByPharmacyID';
 
 function Transfers() {
-    const user = useSelector((state: RootState) => state.auth.user);
-    const { data: transfersData, isLoading, isError } = useTransfersByPharmacy({ pharmacyID: user.pharmacy.id });
-    const { data: pharmaciesData } = usePharmacies();
+    const user = useSelector((state: RootState) => state.user.user);
+    const { data: transfersData, isLoading, isError } = useFetchByID({
+        queryKey: "transfers",
+        queryFn: fetchTransfersByPharmacyID,
+        id: user?.pharmacy_id,
+    });
+    const navigate = useNavigate();
 
-    const transfersSent = transfersData?.transfers.filter((transfer: any) => transfer.to_pharmacy_id === user.pharmacy.id);
-    const transfersRecieved = transfersData?.transfers.filter((transfer: any) => transfer.from_pharmacy_id === user.pharmacy.id);;
-
-    console.log(transfersData?.transfers)
-
-    const pharmacies = pharmaciesData?.pharmacies || [];
+    const transfersSent = transfersData?.transfers.filter((transfer: any) => transfer.to_pharmacy.id === user.pharmacy_id);
+    const transfersRecieved = transfersData?.transfers.filter((transfer: any) => transfer.from_pharmacy.id === user.pharmacy_id);;
 
     const statusColors = {
         pending: '#FFF3B0',      // pastel yellow
@@ -31,19 +30,19 @@ function Transfers() {
     if (isLoading) return <div>Loading transfers...</div>;
     if (isError) return <div>Error loading transfers.</div>;
 
+    console.log(user)
+
     return (
         <div className='Transfers'>
-            <div className='transfers-header'>
-                <div className='transfers-search'>
-                    <SearchForm />
-                </div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <span></span>
+                <h3>Transfer Requests Sent</h3>
                 <Link to="/new_transfer">+ Add</Link>
             </div>
-            <h2>Transfer Requests Sent</h2>
             <div className='transfer-requests-sent'>
                 <div className='table'>
                     <div className='table-header'>
-                        <p></p>
+                        <p style={{ width: "40px", textAlign: "center" }}></p>
                         <p>Date</p>
                         <p>Request By</p>
                         <p>From Pharmacy</p>
@@ -58,17 +57,15 @@ function Transfers() {
                     </div>
                     <div className='table-body'>
                         {transfersSent.map((transfer: any) => {
-                            const fromPharmacy = pharmacies.filter((pharmacy: any) => pharmacy.id === transfer.from_pharmacy_id)
-                            const toPharmacy = pharmacies.filter((pharmacy: any) => pharmacy.id === transfer.to_pharmacy_id)
                             return (
                                 <div className="table-row" key={transfer.id}>
-                                    <p>Edit</p>
+                                    <button style={{ width: "58px", textAlign: "center", padding: ".5rem" }} onClick={() => navigate(`/edit_transfer/${transfer.id}`)}>Edit</button>
                                     <p>{formatDate(transfer.created_at)}</p>
-                                    <p>{transfer.requested_by}</p>
-                                    <p>{fromPharmacy[0].name}</p>
-                                    <p>{toPharmacy[0].name}</p>
+                                    <p>{`${transfer.requester.first_name} ${transfer.requester.last_name}`}</p>
+                                    <p>{transfer.from_pharmacy.name}</p>
+                                    <p>{transfer.to_pharmacy.name}</p>
                                     <p>{`${transfer.patient_first_name} ${transfer.patient_last_name}`}</p>
-                                    <p>{transfer.patient_dob}</p>
+                                    <p>{formatDate(transfer.patient_dob)}</p>
                                     <p>{transfer.patient_phone_number}</p>
                                     <p>{transfer.medication_name}</p>
                                     <p style={{ backgroundColor: getStatusColor(transfer.transfer_status) }}>{transfer.transfer_status}</p>
@@ -81,11 +78,11 @@ function Transfers() {
                     </div>
                 </div>
             </div>
-            <h2 style={{ marginTop: "1rem" }}>Transfer Requests Recieved</h2>
+            <h3 style={{ marginTop: "1rem" }}>Transfer Requests Recieved</h3>
             <div className='transfer-requests-recieved'>
                 <div className='table'>
                     <div className='table-header'>
-                        <p></p>
+                        <p style={{ width: "58px", textAlign: "center", padding: ".5rem" }}></p>
                         <p>Date</p>
                         <p>Request By</p>
                         <p>From Pharmacy</p>
@@ -100,17 +97,15 @@ function Transfers() {
                     </div>
                     <div className='table-body'>
                         {transfersRecieved.map((transfer: any) => {
-                            const fromPharmacy = pharmacies.filter((pharmacy: any) => pharmacy.id === transfer.from_pharmacy_id)
-                            const toPharmacy = pharmacies.filter((pharmacy: any) => pharmacy.id === transfer.to_pharmacy_id)
                             return (
                                 <div className="table-row" key={transfer.id}>
-                                    <p>Edit</p>
+                                    <p style={{ width: "58px", textAlign: "center" }}></p>
                                     <p>{formatDate(transfer.created_at)}</p>
-                                    <p>{transfer.requested_by}</p>
-                                    <p>{fromPharmacy[0].name}</p>
-                                    <p>{toPharmacy[0].name}</p>
+                                    <p>{`${transfer.requester.first_name} ${transfer.requester.last_name}`}</p>
+                                    <p>{transfer.from_pharmacy.name}</p>
+                                    <p>{transfer.to_pharmacy.name}</p>
                                     <p>{`${transfer.patient_first_name} ${transfer.patient_last_name}`}</p>
-                                    <p>{transfer.patient_dob}</p>
+                                    <p>{formatDate(transfer.patient_dob)}</p>
                                     <p>{transfer.patient_phone_number}</p>
                                     <p>{transfer.medication_name}</p>
                                     <p style={{ backgroundColor: getStatusColor(transfer.transfer_status) }}>{transfer.transfer_status}</p>

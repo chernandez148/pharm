@@ -1,4 +1,4 @@
-.PharmacySelection {
+.PatientSelection {
     position: fixed;
     top: 0;
     right: 0;
@@ -17,20 +17,20 @@
     box-sizing: border-box;
 }
 
-.PharmacySelection h3 {
+.PatientSelection h3 {
     text-align: center;
 }
 
-.pharmacy-selection-wrapper {
+.patient-selection-wrapper {
     padding: 1rem;
     width: calc(100% - 2rem);
 }
 
-.pharmacy-selection-wrapper ul {
+.patient-selection-wrapper ul {
     padding: 0;
 }
 
-.pharmacy-selection-wrapper li {
+.patient-selection-wrapper li {
     list-style-type: none;
     margin-bottom: .5rem;
     display: flex;

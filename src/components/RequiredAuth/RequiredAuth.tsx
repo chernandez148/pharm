@@ -4,10 +4,10 @@ import { Navigate } from 'react-router-dom';
 import { RootState } from '../../redux/store';
 
 function RequireAuth({ children }: { children: any }) {
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const user = useSelector((state: RootState) => state.user.user);
 
-    if (!isAuthenticated) {
-        return <Navigate to="/login" replace />;
+    if (!user) {
+        return <Navigate to="/" replace />;
     }
 
     return children;

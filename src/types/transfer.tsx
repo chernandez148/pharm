@@ -10,6 +10,7 @@ export type Transfer = {
 
 // types/forms.ts
 export type TransferValues = {
+    id?: number,
     patient_first_name: string;
     patient_last_name: string;
     patient_dob: string;

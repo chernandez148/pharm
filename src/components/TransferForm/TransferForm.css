@@ -1,6 +1,5 @@
 .TransferForm {
     display: flex;
-    background: #fff;
     padding: 1rem;
     font-family: sans-serif;
     justify-content: space-around;
@@ -22,6 +21,7 @@ h2 {
     flex-direction: column;
     gap: 1.5rem;
     margin-top: 1rem;
+    background: white;
 }
 
 fieldset {

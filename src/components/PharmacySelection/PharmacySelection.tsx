@@ -1,7 +1,8 @@
-import { useFormikContext } from 'formik';
-import { usePharmacies } from '../../hooks/usePharmacies';
-import SearchForm from '../SearchForm/SearchForm';
 import './PharmacySelection.css';
+import { useFetch } from '../../hooks/useFetch';
+import { useFormikContext } from 'formik';
+import fetchPharmacies from '../../services/pharmacies/fetchPharmacies';
+import SearchForm from '../SearchForm/SearchForm';
 
 type Pharmacy = {
     id: number;
@@ -19,9 +20,20 @@ function PharmacySelection({
     setTogglePharmacySelection: (value: boolean) => void;
     setSelectedPharmacy: (value: { pharmacy: string; id: number }) => void;
 }) {
-    const { setFieldValue } = useFormikContext<any>(); // 👈 or replace `any` with your form's actual type
-    const { data: pharmaciesData, isLoading, error } = usePharmacies();
+    let setFieldValue: ((field: string, value: any) => void) | undefined;
 
+    try {
+        const formik = useFormikContext<any>();
+        setFieldValue = formik?.setFieldValue;
+    } catch (error) {
+        // Not inside a Formik context
+        setFieldValue = undefined;
+    }
+
+    const { data: pharmaciesData, isLoading, error } = useFetch({
+        queryKey: "pharmacies",
+        queryFn: fetchPharmacies,
+    });
     const pharmacies: Pharmacy[] = pharmaciesData?.pharmacies || [];
 
     return (
@@ -30,7 +42,7 @@ function PharmacySelection({
             style={{ width: togglePharmacySelection ? '400px' : '0' }}
         >
             <div className="pharmacy-selection-wrapper">
-                <h2>Pharmacy Selection</h2>
+                <h3>Pharmacy Selection</h3>
                 <SearchForm />
                 {isLoading && <p>Loading...</p>}
                 {error && <p>Error loading pharmacies.</p>}
@@ -52,7 +64,9 @@ function PharmacySelection({
                                         id: pharmacy.id,
                                         pharmacy: pharmacy.name,
                                     });
-                                    setFieldValue('from_pharmacy_id', pharmacy.id); // ✅ Sets correct value for form
+                                    if (setFieldValue) {
+                                        setFieldValue('from_pharmacy_id', pharmacy.id);
+                                    }
                                     setTogglePharmacySelection(false);
                                 }}
                             >

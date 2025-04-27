@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import loginService from '../../services/auth/login';
-import { login as setLogin } from '../../redux/slices/authSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import './LoginForm.css';
 import { Navigate } from 'react-router-dom';
+import { RootState } from '../../redux/store';
+import { setUser } from '../../redux/slices/user';
+import { setAccessToken } from '../../redux/slices/access_token';
 
 const transferSchema = Yup.object().shape({
     email: Yup.string().required("Email is required"),
@@ -13,10 +15,11 @@ const transferSchema = Yup.object().shape({
 });
 
 function LoginForm() {
+    const user = useSelector((state: RootState) => state.user.user);
     const dispatch = useDispatch();
     const [redirect, setRedirect] = useState(false); // 👈 track login success
 
-    if (redirect) return <Navigate to="/" replace />; // 👈 perform redirect
+    if (redirect || user) return <Navigate to="/transfers" replace />; // 👈 perform redirect
 
     return (
         <div className='LoginForm'>
@@ -26,8 +29,10 @@ function LoginForm() {
                 onSubmit={async (values, { setSubmitting }) => {
                     try {
                         const data = await loginService(values);
-                        dispatch(setLogin(data));
-                        localStorage.setItem("user", JSON.stringify(data));
+                        dispatch(setUser(data.user));
+                        dispatch(setAccessToken(data.access_token))
+                        localStorage.setItem("user", JSON.stringify(data.user));
+                        localStorage.setItem("access_token", JSON.stringify(data.access_token));
                         setRedirect(true); // 👈 trigger redirect
                     } catch (error) {
                         console.error("Login failed:", error);

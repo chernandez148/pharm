@@ -5,4 +5,5 @@
 .content {
   width: calc(100% - 111px);
   overflow-x: hidden;
+  background-color: #f0f1f6;
 }

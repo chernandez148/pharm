@@ -3,24 +3,30 @@ import { RootState } from './redux/store';
 import LoginForm from './components/LoginForm/LoginForm';
 import RequireAuth from './components/RequiredAuth/RequiredAuth';
 import TransferForm from './components/TransferForm/TransferForm';
-import { login as setLogin } from './redux/slices/authSlice';
 import { Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import './App.css'
 import Transfers from './components/Transfers/Transfers';
 import Patients from './components/Patients/Patients';
 import Sidebar from './components/Sidebar/Sidebar';
+import Header from './components/Header/Header';
+import Prescriptions from './components/Prescriptions/Prescriptions';
+import PatientForm from './components/PatientForm/PatientForm';
+import { checkToken } from './utils/checkToken';
+import { setUser } from './redux/slices/user';
+import PrescriptionForm from './components/PrescriptionForm/PrescriptionForm';
 
 function App() {
-  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const user = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+    const storedAccessToken = localStorage.getItem("access_token")
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
-        dispatch(setLogin(parsedUser));
+        dispatch(setUser(parsedUser));
       } catch (err) {
         console.error("Failed to parse user from localStorage:", err);
         localStorage.removeItem("user");
@@ -28,12 +34,22 @@ function App() {
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    checkToken({ dispatch })
+  }, [])
+
   return (
     <div className='App'>
-      {isAuthenticated && <Sidebar />}
+      <button onClick={() => {
+        dispatch(setUser(null))
+        localStorage.removeItem("user")
+        localStorage.removeItem("access_token")
+      }}>Logout</button>
+      {user && <Sidebar />}
       <div className='content'>
+        {user && <Header />}
         <Routes>
-          <Route path="/login" element={<LoginForm />} />
+          {!user && <Route path="/" element={<LoginForm />} />}
           <Route
             path="/transfer"
             element={
@@ -51,10 +67,58 @@ function App() {
             }
           />
           <Route
+            path="/edit_transfer/:transfer_id"
+            element={
+              <RequireAuth>
+                <TransferForm />
+              </RequireAuth>
+            }
+          />
+          <Route
             path="/patients"
             element={
               <RequireAuth>
                 <Patients />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/new_patient"
+            element={
+              <RequireAuth>
+                <PatientForm />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/edit_patient/:patient_id"
+            element={
+              <RequireAuth>
+                <PatientForm />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/prescriptions"
+            element={
+              <RequireAuth>
+                <Prescriptions />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/new_prescription"
+            element={
+              <RequireAuth>
+                <PrescriptionForm />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/edit_prescription/:prescription_id"
+            element={
+              <RequireAuth>
+                <PrescriptionForm />
               </RequireAuth>
             }
           />

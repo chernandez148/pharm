@@ -1,0 +1,22 @@
+.Header {
+    padding: .5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+}
+
+.header-left {
+    width: 400px;
+}
+
+.Header button {
+    font-size: 12px;
+    border: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
