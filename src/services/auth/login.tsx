@@ -6,7 +6,7 @@ interface LoginValues {
 }
 
 const login = async (values: LoginValues) => {
-    const response = await axios.post("http://127.0.0.1:5000/login", values);
+    const response = await axios.post("https://rx-connect-server-l8z6.vercel.app/login", values);
 
     return {
         user: response.data.user,
