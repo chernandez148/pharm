@@ -1,7 +1,6 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "proxy": "https://rx-connect-server-l8z6.vercel.app",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.7.0",

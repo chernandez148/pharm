@@ -1,7 +1,7 @@
 // services/transfers/getTransfersByPharmacyID.tsx
 
 const fetchTransfersByID = async (id: number) => {
-    const response = await fetch(`/transfers/${id}`);
+    const response = await fetch(`https://rx-connect-server-l8z6.vercel.app/transfers/${id}`);
     if (!response.ok) {
         throw new Error("Failed to fetch transfers");
     }

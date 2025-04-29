@@ -8,7 +8,7 @@ const patchPrescriptionByID = async (values: PrescriptionValues, token: string):
 
     try {
         const response = await axios.patch(
-            `/prescriptions/${values.id}`,
+            `https://rx-connect-server-l8z6.vercel.app/prescriptions/${values.id}`,
             values,
             {
                 headers: {

@@ -2,7 +2,7 @@
 
 const fetchPatientsByID = async (patientID: number, token: string) => {
     console.log(patientID, token)
-    const response = await fetch(`/patient/${patientID}`, {
+    const response = await fetch(`https://rx-connect-server-l8z6.vercel.app/patient/${patientID}`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,

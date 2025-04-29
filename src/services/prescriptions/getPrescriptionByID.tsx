@@ -1,6 +1,6 @@
 
 const fetchPrescriptionByID = async (prescriptionID: number) => {
-    const response = await fetch(`/prescriptions/${prescriptionID}`);
+    const response = await fetch(`https://rx-connect-server-l8z6.vercel.app/prescriptions/${prescriptionID}`);
     if (!response.ok) {
         throw new Error("Failed to fetch transfers");
     }
