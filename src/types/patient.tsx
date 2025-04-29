@@ -16,8 +16,8 @@ export type PatientValues = {
     last_name?: string;
     dob?: string;
     sex?: string;
-    phone_number: string;
-    email: string;
-    address: string;
+    phone_number?: string;
+    email?: string;
+    address?: string;
     pharmacy_ids?: number[]
 }

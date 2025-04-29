@@ -22,8 +22,6 @@ function PatientInfo() {
 
     const patient = patientData?.patient || []
 
-    console.log(accessToken)
-
     return (
         <div className='PatientInfo' style={{ width: userID ? "300px" : "0" }}>
             <h3>Patient Info</h3>

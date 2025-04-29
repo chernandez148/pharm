@@ -40,11 +40,6 @@ function App() {
 
   return (
     <div className='App'>
-      <button onClick={() => {
-        dispatch(setUser(null))
-        localStorage.removeItem("user")
-        localStorage.removeItem("access_token")
-      }}>Logout</button>
       {user && <Sidebar />}
       <div className='content'>
         {user && <Header />}

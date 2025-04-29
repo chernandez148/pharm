@@ -57,9 +57,7 @@ const PrescriptionForm = () => {
     const updatePrescription = usePatchMutation<Prescription, PrescriptionValues>(["prescriptions"], (values) =>
         patchPrescriptionByID(values, accessToken)
     );
-    const updatePation = usePatchMutation<Patient, PatientValues>(["patients"], (values) =>
-        patchPatientByID(values, accessToken)
-    );
+
     const prescription = prescriptionData?.prescription || {};
 
     const [togglePatientSelection, setTogglePatientSelection] = useState(false);
@@ -83,7 +81,6 @@ const PrescriptionForm = () => {
 
             if (prescriptionID) {
                 await updatePrescription.mutateAsync({ ...values, id: prescriptionID });
-                await updatePatient.mutateAsync({})
                 toast.success("Prescription updated successfully");
             } else {
                 await createPrescription.mutateAsync(values);
