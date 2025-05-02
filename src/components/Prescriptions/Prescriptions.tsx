@@ -16,6 +16,7 @@ import { IoTrashSharp } from 'react-icons/io5';
 function Prescriptions() {
     const user = useSelector((state: RootState) => state.user.user);
     const [toggleOptionBox, setToggleOptionBox] = useState(false)
+    const prescriptionID = useSelector((state: RootState) => state.prescriptionID.prescriptionID)
     const { data: prescriptionsData, isLoading, isError } = useFetchByID({
         queryKey: "prescriptions",
         queryFn: fetchPrescriptionsByPharmacyID,
@@ -77,10 +78,11 @@ function Prescriptions() {
                                     <p>
                                         <button onClick={() => dispatch(setPrescriptionID(prescription.id))} className='viewBtn'>View</button>
                                         <button className='moreBtn' onClick={() => {
+                                            dispatch(setPrescriptionID(prescription.id))
                                             setToggleOptionBox((prevToggle) => !prevToggle)
                                         }}>{IoMdMore({})}</button>
                                     </p>  
-                                    <div className='optionBox' style={{ display: toggleOptionBox ? "block" : "none" }}>
+                                    <div className='optionBox' style={{ display: toggleOptionBox || prescription.id === prescriptionID ? "block" : "none" }}>
                                         <button onClick={() => navigate(`/edit_prescription/${prescription.id}`)}>{CiEdit({})} Edit</button>
                                         <button onClick={() => navigate(`/delete_prescription/${prescription.id}`)}>{IoTrashSharp({})} Delete</button>
                                     </div>                       
