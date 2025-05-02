@@ -17,14 +17,14 @@
 }
 
 .transfer-requests-sent,
-.transfer-requests-recieved {
+.transfer-requests-received {
     margin: 1rem;
     overflow-x: auto;
     scrollbar-width: thin;
 }
 
 .transfer-requests-sent .table,
-.transfer-requests-recieved .table {
+.transfer-requests-received .table {
     width: fit-content;
     border: 1px solid #cccccc;
     border-radius: 10px;
@@ -32,77 +32,77 @@
 
 .transfer-requests-sent .table .table-header p:nth-child(1),
 .transfer-requests-sent .table .table-row p:nth-child(1),
-.transfer-requests-recieved .table .table-header p:nth-child(1),
-.transfer-requests-recieved .table .table-row p:nth-child(1) {
+.transfer-requests-received .table .table-header p:nth-child(1),
+.transfer-requests-received .table .table-row p:nth-child(1) {
     width: 30px;
 }
 
 .transfer-requests-sent .table .table-header p:nth-child(2),
 .transfer-requests-sent .table .table-row p:nth-child(2),
-.transfer-requests-recieved .table .table-header p:nth-child(2),
-.transfer-requests-recieved .table .table-row p:nth-child(2) {
+.transfer-requests-received .table .table-header p:nth-child(2),
+.transfer-requests-received .table .table-row p:nth-child(2) {
     width: 100px;
 }
 
 .transfer-requests-sent .table .table-header p:nth-child(4),
 .transfer-requests-sent .table .table-row p:nth-child(4),
-.transfer-requests-recieved .table .table-header p:nth-child(4),
-.transfer-requests-recieved .table .table-row p:nth-child(4) {
+.transfer-requests-received .table .table-header p:nth-child(4),
+.transfer-requests-received .table .table-row p:nth-child(4) {
     width: 160px;
 }
 
 .transfer-requests-sent .table .table-header p:nth-child(5),
 .transfer-requests-sent .table .table-row p:nth-child(5),
-.transfer-requests-recieved .table .table-header p:nth-child(5),
-.transfer-requests-recieved .table .table-row p:nth-child(5) {
+.transfer-requests-received .table .table-header p:nth-child(5),
+.transfer-requests-received .table .table-row p:nth-child(5) {
     width: 160px;
 }
 
 .transfer-requests-sent .table .table-header p:nth-child(7),
 .transfer-requests-sent .table .table-row p:nth-child(7),
-.transfer-requests-recieved .table .table-header p:nth-child(7),
-.transfer-requests-recieved .table .table-row p:nth-child(7) {
+.transfer-requests-received .table .table-header p:nth-child(7),
+.transfer-requests-received .table .table-row p:nth-child(7) {
     width: 120px;
 }
 
 .transfer-requests-sent .table .table-header p:nth-child(8),
 .transfer-requests-sent .table .table-row p:nth-child(8),
-.transfer-requests-recieved .table .table-header p:nth-child(8),
-.transfer-requests-recieved .table .table-row p:nth-child(8) {
+.transfer-requests-received .table .table-header p:nth-child(8),
+.transfer-requests-received .table .table-row p:nth-child(8) {
     width: 160px;
 }
 
 .transfer-requests-sent .table .table-header p:nth-child(9),
 .transfer-requests-sent .table .table-row p:nth-child(9),
-.transfer-requests-recieved .table .table-header p:nth-child(9),
-.transfer-requests-recieved .table .table-row p:nth-child(9) {
+.transfer-requests-received .table .table-header p:nth-child(9),
+.transfer-requests-received .table .table-row p:nth-child(9) {
     width: 120px;
 }
 
 .transfer-requests-sent .table .table-header p:nth-child(10),
 .transfer-requests-sent .table .table-row p:nth-child(10),
-.transfer-requests-recieved .table .table-header p:nth-child(10),
-.transfer-requests-recieved .table .table-row p:nth-child(10)  {
+.transfer-requests-received .table .table-header p:nth-child(10),
+.transfer-requests-received .table .table-row p:nth-child(10)  {
     width: 100px;
 }
 
 .transfer-requests-sent .table .table-header p:nth-child(11),
 .transfer-requests-sent .table .table-row p:nth-child(11),
-.transfer-requests-recieved .table .table-header p:nth-child(11),
-.transfer-requests-recieved .table .table-row p:nth-child(11) {
+.transfer-requests-received .table .table-header p:nth-child(11),
+.transfer-requests-received .table .table-row p:nth-child(11) {
     width: 120px;
 }
 
 .transfer-requests-sent .table .table-header p:nth-child(12),
 .transfer-requests-sent .table .table-row p:nth-child(12),
-.transfer-requests-recieved .table .table-header p:nth-child(12),
-.transfer-requests-recieved .table .table-row p:nth-child(12) {
+.transfer-requests-received .table .table-header p:nth-child(12),
+.transfer-requests-received .table .table-row p:nth-child(12) {
     width: 120px;
 }
 
 .transfer-requests-sent .table .table-header p:nth-child(13),
 .transfer-requests-sent .table .table-row p:nth-child(13),
-.transfer-requests-recieved .table .table-header p:nth-child(13),
-.transfer-requests-recieved .table .table-row p:nth-child(13) {
+.transfer-requests-received .table .table-header p:nth-child(13),
+.transfer-requests-received .table .table-row p:nth-child(13) {
     width: 60px;
 }

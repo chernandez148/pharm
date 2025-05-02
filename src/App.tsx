@@ -19,6 +19,7 @@ import EmployeeForm from './components/EmployeeForm/EmployeeForm';
 import Dashboard from './components/Dashboard/Dashboard';
 import { setAccessToken } from './redux/slices/access_token';
 import { validateToken } from './utils/checkToken';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const user = useSelector((state: RootState) => state.user.user);
@@ -49,6 +50,18 @@ function App() {
 
   return (
     <div className='App'>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       {user && <Sidebar />}
       <div className='content'>
         {user && <Header />}

@@ -16,7 +16,7 @@ import { IoTrashSharp } from 'react-icons/io5';
 function Prescriptions() {
     const user = useSelector((state: RootState) => state.user.user);
     const [toggleOptionBox, setToggleOptionBox] = useState(false)
-    const prescriptionID = useSelector((state: RootState) => state.prescriptionID.prescriptionID)
+    const [ID, setID] = useState(null)
     const { data: prescriptionsData, isLoading, isError } = useFetchByID({
         queryKey: "prescriptions",
         queryFn: fetchPrescriptionsByPharmacyID,
@@ -29,6 +29,8 @@ function Prescriptions() {
     if (isError) return <div>Error loading prescriptions.</div>;
 
     const prescriptions = prescriptionsData?.prescriptions || [];
+
+    console.log(prescriptions)
 
     return (
         <div className='Prescriptions'>
@@ -78,11 +80,11 @@ function Prescriptions() {
                                     <p>
                                         <button onClick={() => dispatch(setPrescriptionID(prescription.id))} className='viewBtn'>View</button>
                                         <button className='moreBtn' onClick={() => {
-                                            dispatch(setPrescriptionID(prescription.id))
+                                            setID(prescription.id)
                                             setToggleOptionBox((prevToggle) => !prevToggle)
                                         }}>{IoMdMore({})}</button>
                                     </p>  
-                                    <div className='optionBox' style={{ display: toggleOptionBox || prescription.id === prescriptionID ? "block" : "none" }}>
+                                    <div className='optionBox' style={{ display: toggleOptionBox && prescription.id === ID ? "block" : "none" }}>
                                         <button onClick={() => navigate(`/edit_prescription/${prescription.id}`)}>{CiEdit({})} Edit</button>
                                         <button onClick={() => navigate(`/delete_prescription/${prescription.id}`)}>{IoTrashSharp({})} Delete</button>
                                     </div>                       

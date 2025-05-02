@@ -4,30 +4,25 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 import { RootState } from "../../redux/store";
 import { usePostMutation } from "../../hooks/usePostMutation";
 import { usePatchMutation } from "../../hooks/usePatchMutation";
 import { useFetchByID } from "../../hooks/useFetchByID";
-
 import fetchPrescriptionByID from "../../services/prescriptions/getPrescriptionByID";
 import postPrescription from "../../services/prescriptions/postPrescription";
 import patchPrescriptionByID from "../../services/prescriptions/patchPrescriptionByID";
-
 import { Prescription, PrescriptionValues } from "../../types/prescriptions";
-
 import PatientSelection from "../PatientSelection/PatientSelection";
-import { MdKeyboardArrowDown } from "react-icons/md";
-
 import "./PrescriptionForm.css";
-import { Patient, PatientValues } from "../../types/patient";
-import patchPatientByID from "../../services/patients/patchPatientByID";
 
-// Validation Schema
+// Updated Validation Schema
 const prescriptionSchema = Yup.object().shape({
     patient_id: Yup.number().required("Patient is required").min(1, "Patient is required"),
     medication: Yup.string().required("Medication is required"),
     dosage: Yup.string().required("Dosage is required"),
+    is_controlled: Yup.boolean().required("Please specify if medication is controlled"),
     directions_for_use: Yup.string().required("Directions are required"),
     quantity: Yup.number().required("Quantity is required").min(1, "Quantity must be at least 1"),
     refills: Yup.number().required("Refills are required").min(0, "Refills cannot be negative"),
@@ -42,7 +37,6 @@ const PrescriptionForm = () => {
     const navigate = useNavigate();
     const user = useSelector((state: RootState) => state.user.user);
     const accessToken = useSelector((state: RootState) => state.accessToken.accessToken);
-
     const { prescription_id } = useParams<{ prescription_id: string }>();
     const prescriptionID = prescription_id ? Number(prescription_id) : null;
 
@@ -53,13 +47,16 @@ const PrescriptionForm = () => {
         token: accessToken,
     });
 
-    const createPrescription = usePostMutation<Prescription, PrescriptionValues>(["prescriptions"], postPrescription);
-    const updatePrescription = usePatchMutation<Prescription, PrescriptionValues>(["prescriptions"], (values) =>
-        patchPrescriptionByID(values, accessToken)
+    const createPrescription = usePostMutation<Prescription, PrescriptionValues>(
+        ["prescriptions"], 
+        postPrescription
+    );
+    const updatePrescription = usePatchMutation<Prescription, PrescriptionValues>(
+        ["prescriptions"], 
+        (values) => patchPrescriptionByID(values, accessToken)
     );
 
     const prescription = prescriptionData?.prescription || {};
-
     const [togglePatientSelection, setTogglePatientSelection] = useState(false);
     const [selectedPatient, setSelectedPatient] = useState<{ id: number | null; patient: string }>({
         id: null,
@@ -72,13 +69,15 @@ const PrescriptionForm = () => {
         if (prescription.date_of_prescription) {
             const date = new Date(prescription.date_of_prescription);
             if (!isNaN(date.getTime())) {
-                setFormattedDateLastFilled(date.toISOString().split("T")[0]);
                 setFormattedDateOfPrescription(date.toISOString().split("T")[0]);
             }
         }
-    }, [prescription.date_of_prescription]);
-
-    useEffect(() => {
+        if (prescription.date_last_filled) {
+            const date = new Date(prescription.date_last_filled);
+            if (!isNaN(date.getTime())) {
+                setFormattedDateLastFilled(date.toISOString().split("T")[0]);
+            }
+        }
         if (prescription?.patient) {
             setSelectedPatient({
                 id: prescription.patient.id,
@@ -91,11 +90,17 @@ const PrescriptionForm = () => {
         try {
             if (!accessToken) throw new Error("No access token available");
 
+            // Ensure is_controlled is a proper boolean before sending to API
+            const processedValues = {
+                ...values,
+                is_controlled: Boolean(values.is_controlled),
+            };
+
             if (prescriptionID) {
-                await updatePrescription.mutateAsync({ ...values, id: prescriptionID });
+                await updatePrescription.mutateAsync({ ...processedValues, id: prescriptionID });
                 toast.success("Prescription updated successfully");
             } else {
-                await createPrescription.mutateAsync(values);
+                await createPrescription.mutateAsync(processedValues);
                 toast.success("Prescription created successfully");
             }
 
@@ -119,6 +124,7 @@ const PrescriptionForm = () => {
                     patient_id: selectedPatient.id || prescription.patient_id || "",
                     medication: prescription.medication || "",
                     dosage: prescription.dosage || "",
+                    is_controlled: prescription.is_controlled || false,
                     directions_for_use: prescription.directions_for_use || "",
                     quantity: prescription.quantity || 0,
                     refills: prescription.refills || 0,
@@ -127,12 +133,12 @@ const PrescriptionForm = () => {
                     prescriber_full_name: prescription.prescriber_full_name || "",
                     prescriber_dea_number: prescription.prescriber_dea_number || "",
                     prescriber_contact_info: prescription.prescriber_contact_info || "",
-                    pharmacy_ids: prescription.pharmacies?.map(pharmacy => pharmacy.id) || [user.pharmacy_id], // Map pharmacy ids if available
+                    pharmacy_ids: prescription.pharmacies?.map(pharmacy => pharmacy.id) || [user.pharmacy_id],
                 }}
                 validationSchema={prescriptionSchema}
                 onSubmit={handleSubmit}
             >
-                {({ isSubmitting, setFieldValue }) => (
+                {({ isSubmitting, setFieldValue, values }) => (
                     <Form className="prescription-form">
                         <h2>{prescriptionID ? "Edit Prescription" : "New Prescription"}</h2>
 
@@ -158,11 +164,9 @@ const PrescriptionForm = () => {
                                         setFieldValue("patient_id", patient.id);
                                     }}
                                 />
-
                                 <ErrorMessage name="patient_id" component="div" className="error" />
                             </fieldset>
 
-                            {/* Rest of your form fields remain the same */}
                             <fieldset>
                                 <legend>Prescription Info</legend>
 
@@ -174,6 +178,33 @@ const PrescriptionForm = () => {
                                 <Field name="dosage" />
                                 <ErrorMessage name="dosage" component="div" className="error" />
 
+                                <div className="form-group">
+                                    <label>Is Controlled?</label>
+                                    <div className="radio-group">
+                                        <label style={{ marginRight: ".5rem" }}>
+                                            <input 
+                                                name="is_controlled" 
+                                                type="radio" 
+                                                checked={values.is_controlled === true}
+                                                onChange={() => setFieldValue("is_controlled", true)}
+                                                className="radio-input"
+                                            />
+                                            <span className="radio-label">Yes</span>
+                                        </label>
+                                        <label>
+                                            <input 
+                                                name="is_controlled" 
+                                                type="radio" 
+                                                checked={values.is_controlled === false}
+                                                onChange={() => setFieldValue("is_controlled", false)}
+                                                className="radio-input"
+                                            />
+                                            <span className="radio-label">No</span>
+                                        </label>
+                                    </div>
+                                    <ErrorMessage name="is_controlled" component="div" className="error" />
+                                </div>
+                                
                                 <label>Directions For Use</label>
                                 <Field name="directions_for_use" as="textarea" />
                                 <ErrorMessage name="directions_for_use" component="div" className="error" />

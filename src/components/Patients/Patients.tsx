@@ -2,7 +2,6 @@ import './Patients.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { formatDate } from '../../utils/dateUtils';
-import { setUserID } from '../../redux/slices/userID';
 import PatientInfo from '../PatientInfo/PatientInfo';
 import fetchPatientsByPharmacyID from '../../services/patients/getPatientsByPharmacyID';
 import { useFetchByID } from '../../hooks/useFetchByID';
@@ -12,12 +11,13 @@ import { IoMdMore } from "react-icons/io";
 import { useState } from 'react';
 import { CiEdit } from "react-icons/ci";
 import { IoTrashSharp } from "react-icons/io5";
+import { setUserID } from '../../redux/slices/userID';
 
 
 function Patients() {
     const user = useSelector((state: RootState) => state.user.user);
-    const accessToken = useSelector((state: RootState) => state.accessToken.accessToken);
     const [toggleOptionBox, setToggleOptionBox] = useState(false)
+    const [patientID, setPatientID] = useState(null)
     const navigate = useNavigate();
     const { data: patientsData, isLoading, isError } = useFetchByID({
         queryKey: "patients",
@@ -25,16 +25,12 @@ function Patients() {
         id: user.pharmacy_id,
     });
 
-    console.log(accessToken)
-
     const dispatch = useDispatch()
 
     if (isLoading) return <div>Loading transfers...</div>;
     if (isError) return <div>Error loading transfers.</div>;
 
     const patients = patientsData?.patients || [];
-
-    console.log(toggleOptionBox)
 
     return (
         <div className='Patients'>
@@ -66,12 +62,15 @@ function Patients() {
                                     <p>{patient.address}</p>
                                     <p>{patient.phone_number}</p>
                                     <p>
-                                        <button className='viewBtn'>View</button>
+                                        <button className='viewBtn' onClick={() => {
+                                            dispatch(setUserID(patient.id))
+                                        }}>View</button>
                                         <button className='moreBtn' onClick={() => {
+                                            setPatientID(patient.id)
                                             setToggleOptionBox((prevToggle) => !prevToggle)
                                         }}>{IoMdMore({})}</button>
                                     </p>
-                                    <div className='optionBox' style={{ display: toggleOptionBox ? "block" : "none" }}>
+                                    <div className='optionBox' style={{ display: toggleOptionBox && patientID === patient.id ? "block" : "none" }}>
                                         <button onClick={() => navigate(`/edit_patient/${patient.id}`)}>{CiEdit({})} Edit</button>
                                         <button onClick={() => navigate(`/delete_patient/${patient.id}`)}>{IoTrashSharp({})} Delete</button>
                                     </div>

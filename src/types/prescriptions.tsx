@@ -13,5 +13,6 @@ export type PrescriptionValues = {
     mediaction?: string;
     dosage?: string;
     quantity?: number;
+    is_controlled?: boolean;
     pharmacy_ids?: number[]
 }

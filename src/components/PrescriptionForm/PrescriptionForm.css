@@ -9,6 +9,26 @@
     width: 400px;
 }
 
+.prescription-form .form-group .radio-group {
+    display: flex;
+}
+
+/* Add this to your CSS file */
+.radio-input {
+    appearance: auto; /* Shows default browser styling */
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+  }
+
+.prescription-form .form-group label {
+    display: flex;
+    align-items: center;
+}
+
+.prescription-form .form-group input {
+    width: auto;
+}
+
 .prescription-form-wrapper {
     display: flex;
     flex-direction: column;

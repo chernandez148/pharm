@@ -17,6 +17,7 @@ import patchPatientByID from "../../services/patients/patchPatientByID";
 import './PrescriptionInfo.css'
 import patchTransferByID from "../../services/transfers/patchTransferByID";
 import fetchTransfersByPharmacyID from "../../services/transfers/getTransfersByPharmacyID";
+import 'react-toastify/dist/ReactToastify.css';
 
 function PrescriptionInfo() {
   const user = useSelector((state: RootState) => state.user.user)
@@ -113,6 +114,11 @@ function PrescriptionInfo() {
   
     if (!prescriptionID || !prescription?.patient?.id) {
       toast.error("Missing required data");
+      return;
+    }
+
+    if (transfersReceived.length === 0) {
+      toast.error("No matching transfer request found. Patient information does not match.");
       return;
     }
   
