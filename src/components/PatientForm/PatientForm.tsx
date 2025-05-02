@@ -12,6 +12,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import fetchPatientsByID from "../../services/patients/getPatientByID";
 import { useFetchByID } from "../../hooks/useFetchByID";
 import { toast } from "react-toastify";
+import './PatientForm.css'
 
 // Validation schema
 const patientSchema = Yup.object().shape({
@@ -86,7 +87,7 @@ const PatientForm = () => {
     if (isError) return <div>Error loading patient data</div>;
 
     return (
-        <div className="TransferForm">
+        <div className="PatientForm">
             <Formik
                 enableReinitialize
                 initialValues={{
@@ -103,9 +104,9 @@ const PatientForm = () => {
                 onSubmit={handleSubmit}
             >
                 {({ isSubmitting }) => (
-                    <Form className="transfer-form">
+                    <Form className="patient-form">
                         <h2>{patientID ? "Edit Patient" : "New Patient"}</h2>
-                        <div className="transfer-form-wrapper">
+                        <div className="patient-form-wrapper">
                             <fieldset>
                                 <legend>Patient Info</legend>
                                 <label>First Name</label>

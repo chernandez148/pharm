@@ -1,106 +1,89 @@
-.Prescriptions {
-    padding: 1rem;
-}
-
 .prescriptions-header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    padding: 1rem 1rem 0 1rem;
 }
 
-.Prescriptions h3 {
-    text-align: center;
+.prescriptions-header a {
+    border: 2px solid #07bc0c;
+    border-radius: 4px;
+    background: #d8ecd9;
+    text-decoration: none;
+    font-size: 12px;
+    padding: .25rem .5rem;
+    font-weight: 600;
+    color: #000;
 }
 
-.prescriptions-wrapper {
+.prescription-wrapper {
+    margin: 1rem;
     overflow-x: auto;
     scrollbar-width: thin;
 }
 
-.Prescriptions .table-row button {
-    background-color: transparent;
-    border: 0;
-    font-size: 12px;
-    color: #464646;
+.prescription-wrapper .table {
+    width: fit-content;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
 }
 
-.Prescriptions .table-row p {
-    overflow: hidden;
+.prescription-wrapper .table .table-header p:nth-child(1),
+.prescription-wrapper .table .table-row p:nth-child(1) {
+    width: 30px;
 }
 
-.Prescriptions .table-header p:nth-child(2),
-.Prescriptions .table-row p:nth-child(2) {
-    width: 140px;
-    /* Full Name */
+.prescription-wrapper .table .table-header p:nth-child(3),
+.prescription-wrapper .table .table-row p:nth-child(3) {
+    width: 120px;
 }
 
-.Prescriptions .table-header p:nth-child(3),
-.Prescriptions .table-row p:nth-child(3) {
+.prescription-wrapper .table .table-header p:nth-child(4),
+.prescription-wrapper .table .table-row p:nth-child(4) {
     width: 100px;
-    /* DOB */
 }
 
-.Prescriptions .table-header p:nth-child(4),
-.Prescriptions .table-row p:nth-child(4) {
-    width: 120px;
-    /* Phone Number */
+.prescription-wrapper .table .table-header p:nth-child(6),
+.prescription-wrapper .table .table-row p:nth-child(6) {
+    width: 30px;
 }
 
-.Prescriptions .table-header p:nth-child(5),
-.Prescriptions .table-row p:nth-child(5) {
-    width: 120px;
-    /* Medication */
+.prescription-wrapper .table .table-header p:nth-child(7),
+.prescription-wrapper .table .table-row p:nth-child(7) {
+    width: 180px;
 }
 
-.Prescriptions .table-header p:nth-child(6),
-.Prescriptions .table-row p:nth-child(6) {
-    width: 80px;
-    /* Dosage */
+.prescription-wrapper .table .table-header p:nth-child(8),
+.prescription-wrapper .table .table-row p:nth-child(8) {
+    width: 60px;
 }
 
-.Prescriptions .table-header p:nth-child(7),
-.Prescriptions .table-row p:nth-child(7) {
-    width: 250px;
-    /* Directions for Use */
+.prescription-wrapper .table .table-header p:nth-child(9),
+.prescription-wrapper .table .table-row p:nth-child(9) {
+    width: 40px;
 }
 
-.Prescriptions .table-header p:nth-child(8),
-.Prescriptions .table-row p:nth-child(8) {
-    width: 80px;
-    /* Quantity */
-}
-
-.Prescriptions .table-header p:nth-child(9),
-.Prescriptions .table-row p:nth-child(9) {
-    width: 80px;
-    /* Refills */
-}
-
-.Prescriptions .table-header p:nth-child(10),
-.Prescriptions .table-row p:nth-child(10) {
+.prescription-wrapper .table .table-header p:nth-child(10),
+.prescription-wrapper .table .table-row p:nth-child(10) {
     width: 140px;
-    /* Date of Prescription */
 }
 
-.Prescriptions .table-header p:nth-child(11),
-.Prescriptions .table-row p:nth-child(11) {
+.prescription-wrapper .table .table-header p:nth-child(11),
+.prescription-wrapper .table .table-row p:nth-child(11) {
     width: 140px;
-    /* Date Last Filled */
 }
 
-.Prescriptions .table-header p:nth-child(12),
-.Prescriptions .table-row p:nth-child(12) {
+.prescription-wrapper .table .table-header p:nth-child(13),
+.prescription-wrapper .table .table-row p:nth-child(13) {
     width: 160px;
-    /* Prescriber's Name */
 }
 
-.Prescriptions .table-header p:nth-child(13),
-.Prescriptions .table-row p:nth-child(13) {
+.prescription-wrapper .table .table-header p:nth-child(14),
+.prescription-wrapper .table .table-row p:nth-child(14) {
     width: 160px;
-    /* DEA Number */
 }
 
-.Prescriptions .table-header p:nth-child(14),
-.Prescriptions .table-row p:nth-child(14) {
-    width: 200px;
-    /* Contact Info */
+.prescription-wrapper .table .table-header p:nth-child(15),
+.prescription-wrapper .table .table-row p:nth-child(15) {
+    width: 60px;
 }

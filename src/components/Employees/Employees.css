@@ -1,0 +1,54 @@
+.employees-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1rem 0 1rem;
+}
+
+.employees-header a {
+    border: 2px solid #07bc0c;
+    border-radius: 4px;
+    background: #d8ecd9;
+    text-decoration: none;
+    font-size: 12px;
+    padding: .25rem .5rem;
+    font-weight: 600;
+    color: #000
+}
+
+.employee-wrapper {
+    margin: 1rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.employee-wrapper .table {
+    width: fit-content;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+}
+
+.employee-wrapper .table .table-header p:nth-child(1),
+.employee-wrapper .table .table-row p:nth-child(1) {
+    width: 30px;
+}
+
+.employee-wrapper .table .table-header p:nth-child(3),
+.employee-wrapper .table .table-row p:nth-child(3) {
+    width: 100px;
+}
+
+.employee-wrapper .table .table-header p:nth-child(4),
+.employee-wrapper .table .table-row p:nth-child(4) {
+    width: 180px;
+}
+
+.employee-wrapper .table .table-header p:nth-child(5),
+.employee-wrapper .table .table-row p:nth-child(5) {
+    width: 80px;
+}
+
+.employee-wrapper .table .table-header p:nth-child(6),
+.employee-wrapper .table .table-row p:nth-child(6) {
+    width: 60px;
+}

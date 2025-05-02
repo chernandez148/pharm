@@ -1,144 +1,108 @@
-.Transfers {
-    padding: 1rem;
-}
-
-.Transfers h3 {
-    text-align: center;
-}
-
-.Transfers .table-row button {
-    background-color: transparent;
-    border: 0;
-    font-size: 12px;
-    color: #464646;
-}
-
-.table {
-    width: fit-content;
-    margin-top: 1rem;
-}
-
-.transfer-requests-sent,
-.transfer-requests-recieved {
-    overflow-x: auto;
-    scrollbar-width: thin;
-}
-
 .transfers-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-
-.transfers-search {
-    margin-right: 1rem;
-    width: 400px;
+    padding: 1rem 1rem 0 1rem;
 }
 
 .transfers-header a {
+    border: 2px solid #07bc0c;
+    border-radius: 4px;
+    background: #d8ecd9;
     text-decoration: none;
-    font-size: 14px;
-    color: #7ac481;
-}
-
-.table-header,
-.table-body {
-    display: flex;
-}
-
-.table-body {
-    flex-direction: column;
-}
-
-.table-header p {
-    background: #f7f9fa;
-    font-weight: bold;
-}
-
-.table-header p,
-.table-body p {
-    margin: 0;
-    white-space: nowrap;
-    padding: .5rem;
-    border: 1px solid #efefef;
     font-size: 12px;
-    color: #464646;
+    padding: .25rem .5rem;
+    font-weight: 600;
+    color: #000;
 }
 
-.table-row {
-    display: flex;
-    background-color: white;
+.transfer-requests-sent,
+.transfer-requests-recieved {
+    margin: 1rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
 }
 
-/* Edit Button */
-.table-header p:nth-child(1),
-.table-body p:nth-child(1) {
-    width: 40px;
-    text-align: center;
+.transfer-requests-sent .table,
+.transfer-requests-recieved .table {
+    width: fit-content;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
 }
 
-/* Date */
-.table-header p:nth-child(2),
-.table-body p:nth-child(2) {
-    width: 120px;
+.transfer-requests-sent .table .table-header p:nth-child(1),
+.transfer-requests-sent .table .table-row p:nth-child(1),
+.transfer-requests-recieved .table .table-header p:nth-child(1),
+.transfer-requests-recieved .table .table-row p:nth-child(1) {
+    width: 30px;
 }
 
-/* Request By */
-.table-header p:nth-child(3),
-.table-body p:nth-child(3) {
-    width: 120px;
+.transfer-requests-sent .table .table-header p:nth-child(2),
+.transfer-requests-sent .table .table-row p:nth-child(2),
+.transfer-requests-recieved .table .table-header p:nth-child(2),
+.transfer-requests-recieved .table .table-row p:nth-child(2) {
+    width: 100px;
 }
 
-/* From Pharmacy */
-.table-header p:nth-child(4),
-.table-body p:nth-child(4) {
+.transfer-requests-sent .table .table-header p:nth-child(4),
+.transfer-requests-sent .table .table-row p:nth-child(4),
+.transfer-requests-recieved .table .table-header p:nth-child(4),
+.transfer-requests-recieved .table .table-row p:nth-child(4) {
     width: 160px;
 }
 
-/* To Pharmacy */
-.table-header p:nth-child(5),
-.table-body p:nth-child(5) {
+.transfer-requests-sent .table .table-header p:nth-child(5),
+.transfer-requests-sent .table .table-row p:nth-child(5),
+.transfer-requests-recieved .table .table-header p:nth-child(5),
+.transfer-requests-recieved .table .table-row p:nth-child(5) {
     width: 160px;
 }
 
-/* Patient Name */
-.table-header p:nth-child(6),
-.table-body p:nth-child(6) {
-    width: 160px;
-}
-
-/* Patient DOB */
-.table-header p:nth-child(7),
-.table-body p:nth-child(7) {
-    width: 140px;
-}
-
-/* Patient Phone Number */
-.table-header p:nth-child(8),
-.table-body p:nth-child(8) {
-    width: 160px;
-}
-
-/* Medication */
-.table-header p:nth-child(9),
-.table-body p:nth-child(9) {
+.transfer-requests-sent .table .table-header p:nth-child(7),
+.transfer-requests-sent .table .table-row p:nth-child(7),
+.transfer-requests-recieved .table .table-header p:nth-child(7),
+.transfer-requests-recieved .table .table-row p:nth-child(7) {
     width: 120px;
 }
 
-/* Status */
-.table-header p:nth-child(10),
-.table-body p:nth-child(10) {
+.transfer-requests-sent .table .table-header p:nth-child(8),
+.transfer-requests-sent .table .table-row p:nth-child(8),
+.transfer-requests-recieved .table .table-header p:nth-child(8),
+.transfer-requests-recieved .table .table-row p:nth-child(8) {
+    width: 160px;
+}
+
+.transfer-requests-sent .table .table-header p:nth-child(9),
+.transfer-requests-sent .table .table-row p:nth-child(9),
+.transfer-requests-recieved .table .table-header p:nth-child(9),
+.transfer-requests-recieved .table .table-row p:nth-child(9) {
     width: 120px;
 }
 
-/* Completed By */
-.table-header p:nth-child(11),
-.table-body p:nth-child(11) {
-    width: 140px;
+.transfer-requests-sent .table .table-header p:nth-child(10),
+.transfer-requests-sent .table .table-row p:nth-child(10),
+.transfer-requests-recieved .table .table-header p:nth-child(10),
+.transfer-requests-recieved .table .table-row p:nth-child(10)  {
+    width: 100px;
 }
 
-/* Completed At */
-.table-header p:nth-child(12),
-.table-body p:nth-child(12) {
-    width: 140px;
+.transfer-requests-sent .table .table-header p:nth-child(11),
+.transfer-requests-sent .table .table-row p:nth-child(11),
+.transfer-requests-recieved .table .table-header p:nth-child(11),
+.transfer-requests-recieved .table .table-row p:nth-child(11) {
+    width: 120px;
+}
+
+.transfer-requests-sent .table .table-header p:nth-child(12),
+.transfer-requests-sent .table .table-row p:nth-child(12),
+.transfer-requests-recieved .table .table-header p:nth-child(12),
+.transfer-requests-recieved .table .table-row p:nth-child(12) {
+    width: 120px;
+}
+
+.transfer-requests-sent .table .table-header p:nth-child(13),
+.transfer-requests-sent .table .table-row p:nth-child(13),
+.transfer-requests-recieved .table .table-header p:nth-child(13),
+.transfer-requests-recieved .table .table-row p:nth-child(13) {
+    width: 60px;
 }

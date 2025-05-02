@@ -1,0 +1,64 @@
+.PrescriptionInfo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 0;
+    
+    /* Other existing styles */
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-sizing: border-box;
+}
+
+.PrescriptionInfo.open {
+    width: 300px;
+    transition: width 0.25s ease-in-out;
+}
+
+.PrescriptionInfo h3 {
+    padding: 1rem;
+    border-bottom: 1px solid #efefef;
+}
+
+.prescription-info-wrapper {
+    padding: 1rem;
+    width: calc(100% - 2rem);
+}
+
+.prescription-info-wrapper p {
+    font-size: 12px;
+}
+
+.prescription-info-wrapper button {
+    display: flex;
+    align-items: center;
+    border: 0;
+    margin: .5rem 0;
+    background-color: rgb(205, 236, 207);
+    padding: 8px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.prescription-info-wrapper button svg {
+    background: #829b7e;
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    padding: 4px;
+    margin-right: 5px;
+    color: white;
+}
+
+.prescription-info-action-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

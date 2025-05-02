@@ -9,7 +9,7 @@ import { RootState } from '../../redux/store';
 import { setUser } from '../../redux/slices/user';
 import { setAccessToken } from '../../redux/slices/access_token';
 
-const transferSchema = Yup.object().shape({
+const loginSchema = Yup.object().shape({
     email: Yup.string().required("Email is required"),
     password: Yup.string().required("Password is required"),
 });
@@ -19,20 +19,20 @@ function LoginForm() {
     const dispatch = useDispatch();
     const [redirect, setRedirect] = useState(false); // 👈 track login success
 
-    if (redirect || user) return <Navigate to="/transfers" replace />; // 👈 perform redirect
+    if (redirect || user) return <Navigate to="/" replace />; // 👈 perform redirect
 
     return (
         <div className='LoginForm'>
             <Formik
                 initialValues={{ email: "", password: "" }}
-                validationSchema={transferSchema}
+                validationSchema={loginSchema}
                 onSubmit={async (values, { setSubmitting }) => {
                     try {
                         const data = await loginService(values);
                         dispatch(setUser(data.user));
                         dispatch(setAccessToken(data.access_token))
                         localStorage.setItem("user", JSON.stringify(data.user));
-                        localStorage.setItem("access_token", JSON.stringify(data.access_token));
+                        localStorage.setItem("access_token", (data.access_token));
                         setRedirect(true); // 👈 trigger redirect
                     } catch (error) {
                         console.error("Login failed:", error);

@@ -29,7 +29,7 @@ function PatientInfo() {
                 <p><strong>Private Info:</strong></p>
                 <p>{patient.first_name} {patient.last_name}</p>
                 <p>{patient.email}</p>
-                <p>{formatDate(patient.dob)}</p>
+                <p>{formatDate(patient.dob).formattedDate}</p>
                 <p>{patient.sex}</p>
                 <br />
                 <p><strong>Contact Info:</strong></p>

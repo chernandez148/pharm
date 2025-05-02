@@ -1,10 +1,16 @@
 import './Transfer.css'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { formatDate } from '../../utils/dateUtils';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFetchByID } from '../../hooks/useFetchByID';
 import fetchTransfersByPharmacyID from '../../services/transfers/getTransfersByPharmacyID';
+import { FaSort } from 'react-icons/fa6';
+import { IoMdMore } from 'react-icons/io';
+import { useState } from 'react';
+import { CiEdit } from 'react-icons/ci';
+import { IoTrashSharp } from 'react-icons/io5';
+import { setTransferID } from '../../redux/slices/transferID';
 
 function Transfers() {
     const user = useSelector((state: RootState) => state.user.user);
@@ -13,10 +19,14 @@ function Transfers() {
         queryFn: fetchTransfersByPharmacyID,
         id: user?.pharmacy_id,
     });
+    const [toggleOptionBox, setToggleOptionBox] = useState(false)
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const transfersSent = transfersData?.transfers.filter((transfer: any) => transfer.to_pharmacy.id === user.pharmacy_id);
-    const transfersRecieved = transfersData?.transfers.filter((transfer: any) => transfer.from_pharmacy.id === user.pharmacy_id);;
+    const transfersRecieved = transfersData?.transfers.filter((transfer: any) => transfer.from_pharmacy.id === user.pharmacy_id);
+
+    console.log(transfersRecieved)
 
     const statusColors = {
         pending: '#FFF3B0',      // pastel yellow
@@ -30,87 +40,105 @@ function Transfers() {
     if (isLoading) return <div>Loading transfers...</div>;
     if (isError) return <div>Error loading transfers.</div>;
 
-    console.log(user)
-
     return (
         <div className='Transfers'>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span></span>
+            <div className='transfers-header'>
                 <h3>Transfer Requests Sent</h3>
                 <Link to="/new_transfer">+ Add</Link>
             </div>
             <div className='transfer-requests-sent'>
                 <div className='table'>
                     <div className='table-header'>
-                        <p style={{ width: "40px", textAlign: "center" }}></p>
-                        <p>Date</p>
-                        <p>Request By</p>
-                        <p>From Pharmacy</p>
-                        <p>To Pharmacy</p>
-                        <p>Patient Name</p>
-                        <p>Patient DOB</p>
-                        <p>Patient Phone Number</p>
-                        <p>Medication</p>
-                        <p>Status</p>
-                        <p>Completed By</p>
-                        <p>Completed At</p>
+                        <p># <button>{FaSort({})}</button></p>
+                        <p>Date <button>{FaSort({})}</button></p>
+                        <p>Request By <button>{FaSort({})}</button></p>
+                        <p>From Pharmacy <button>{FaSort({})}</button></p>
+                        <p>To Pharmacy <button>{FaSort({})}</button></p>
+                        <p>Patient Name <button>{FaSort({})}</button></p>
+                        <p>Patient DOB <button>{FaSort({})}</button></p>
+                        <p>Patient Phone Number <button>{FaSort({})}</button></p>
+                        <p>Medication <button>{FaSort({})}</button></p>
+                        <p>Status <button>{FaSort({})}</button></p>
+                        <p>Completed By <button>{FaSort({})}</button></p>
+                        <p>Completed At <button>{FaSort({})}</button></p>
+                        <p>Action</p>
                     </div>
                     <div className='table-body'>
-                        {transfersSent.map((transfer: any) => {
+                        {transfersSent.map((transfer: any, index: number) => {
                             return (
                                 <div className="table-row" key={transfer.id}>
-                                    <button style={{ width: "58px", textAlign: "center", padding: ".5rem" }} onClick={() => navigate(`/edit_transfer/${transfer.id}`)}>Edit</button>
-                                    <p>{formatDate(transfer.created_at)}</p>
+                                    <p>{index + 1}</p>
+                                    <p>{formatDate(transfer.created_at).formattedDate}</p>
                                     <p>{`${transfer.requester.first_name} ${transfer.requester.last_name}`}</p>
-                                    <p>{transfer.from_pharmacy.name}</p>
-                                    <p>{transfer.to_pharmacy.name}</p>
+                                    <p>{transfer.from_pharmacy.name} {`(#${transfer.from_pharmacy.id})`}</p>
+                                    <p>{transfer.to_pharmacy.name} {`(#${transfer.to_pharmacy.id})`}</p>
                                     <p>{`${transfer.patient_first_name} ${transfer.patient_last_name}`}</p>
-                                    <p>{formatDate(transfer.patient_dob)}</p>
+                                    <p>{formatDate(transfer.patient_dob).formattedDate}</p>
                                     <p>{transfer.patient_phone_number}</p>
                                     <p>{transfer.medication_name}</p>
                                     <p style={{ backgroundColor: getStatusColor(transfer.transfer_status) }}>{transfer.transfer_status}</p>
-                                    <p>{transfer.completed_by || 'N/A'}</p>
-                                    <p>{transfer.completed_at || 'N/A'}</p>
+                                    <p>{`${transfer?.completer?.first_name} ${transfer?.completer?.last_name}` || 'N/A'}</p>
+                                    <p>{formatDate(transfer?.completed_at).formattedDate || 'N/A'}</p>
+                                    <p>
+                                        <button onClick={() => dispatch(setTransferID(transfer.id))} className='viewBtn'>View</button>
+                                        <button className='moreBtn' onClick={() => {
+                                            setToggleOptionBox((prevToggle) => !prevToggle)
+                                        }}>{IoMdMore({})}</button>
+                                    </p>  
+                                    <div className='optionBox' style={{ display: toggleOptionBox ? "block" : "none" }}>
+                                        <button onClick={() => navigate(`/edit_transfer/${transfer.id}`)}>{CiEdit({})} Edit</button>
+                                        <button onClick={() => navigate(`/delete_transfer/${transfer.id}`)}>{IoTrashSharp({})} Delete</button>
+                                    </div>        
                                 </div>
                             )
-
                         })}
                     </div>
                 </div>
             </div>
-            <h3 style={{ marginTop: "1rem" }}>Transfer Requests Recieved</h3>
+            <h3 style={{ margin: "1rem 0 0 1rem" }}>Transfer Requests Recieved</h3>
             <div className='transfer-requests-recieved'>
                 <div className='table'>
                     <div className='table-header'>
-                        <p style={{ width: "58px", textAlign: "center", padding: ".5rem" }}></p>
-                        <p>Date</p>
-                        <p>Request By</p>
-                        <p>From Pharmacy</p>
-                        <p>To Pharmacy</p>
-                        <p>Patient Name</p>
-                        <p>Patient DOB</p>
-                        <p>Patient Phone Number</p>
-                        <p>Medication</p>
-                        <p>Status</p>
-                        <p>Completed By</p>
-                        <p>Completed At</p>
+                        <p># <button>{FaSort({})}</button></p>
+                        <p>Date <button>{FaSort({})}</button></p>
+                        <p>Request By <button>{FaSort({})}</button></p>
+                        <p>From Pharmacy <button>{FaSort({})}</button></p>
+                        <p>To Pharmacy <button>{FaSort({})}</button></p>
+                        <p>Patient Name <button>{FaSort({})}</button></p>
+                        <p>Patient DOB <button>{FaSort({})}</button></p>
+                        <p>Patient Phone Number <button>{FaSort({})}</button></p>
+                        <p>Medication <button>{FaSort({})}</button></p>
+                        <p>Status <button>{FaSort({})}</button></p>
+                        <p>Completed By <button>{FaSort({})}</button></p>
+                        <p>Completed At <button>{FaSort({})}</button></p>
+                        <p>Action</p>
                     </div>
                     <div className='table-body'>
-                        {transfersRecieved.map((transfer: any) => {
+                        {transfersRecieved.map((transfer: any, index: number) => {
                             return (
                                 <div className="table-row" key={transfer.id}>
-                                    <p style={{ width: "58px", textAlign: "center" }}></p>
-                                    <p>{formatDate(transfer.created_at)}</p>
+                                    <p>{index + 1}</p>
+                                    <p>{formatDate(transfer.created_at).formattedDate}</p>
                                     <p>{`${transfer.requester.first_name} ${transfer.requester.last_name}`}</p>
-                                    <p>{transfer.from_pharmacy.name}</p>
-                                    <p>{transfer.to_pharmacy.name}</p>
+                                    <p>{transfer.from_pharmacy.name} {`(#${transfer.from_pharmacy.id})`}</p>
+                                    <p>{transfer.to_pharmacy.name} {`(#${transfer.to_pharmacy.id})`}</p>
                                     <p>{`${transfer.patient_first_name} ${transfer.patient_last_name}`}</p>
-                                    <p>{formatDate(transfer.patient_dob)}</p>
+                                    <p>{formatDate(transfer.patient_dob).formattedDate}</p>
                                     <p>{transfer.patient_phone_number}</p>
                                     <p>{transfer.medication_name}</p>
                                     <p style={{ backgroundColor: getStatusColor(transfer.transfer_status) }}>{transfer.transfer_status}</p>
-                                    <p>{transfer.completed_by || 'N/A'}</p>
-                                    <p>{transfer.completed_at || 'N/A'}</p>
+                                    <p>{`${transfer?.completer?.first_name} ${transfer?.completer?.last_name}` || 'N/A'}</p>
+                                    <p>{formatDate(transfer?.completed_at).formattedDate || 'N/A'}</p>
+                                    <p>
+                                        <button onClick={() => dispatch(setTransferID(transfer.id))} className='viewBtn'>View</button>
+                                        <button className='moreBtn' onClick={() => {
+                                            setToggleOptionBox((prevToggle) => !prevToggle)
+                                        }}>{IoMdMore({})}</button>
+                                    </p>  
+                                    <div className='optionBox' style={{ display: toggleOptionBox ? "block" : "none" }}>
+                                        <button onClick={() => navigate(`/edit_transfer/${transfer.id}`)}>{CiEdit({})} Edit</button>
+                                        <button onClick={() => navigate(`/delete_transfer/${transfer.id}`)}>{IoTrashSharp({})} Delete</button>
+                                    </div>        
                                 </div>
                             )
 

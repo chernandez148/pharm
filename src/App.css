@@ -5,5 +5,145 @@
 .content {
   width: calc(100% - 111px);
   overflow-x: hidden;
-  background-color: #f0f1f6;
+}
+
+.table .table-row {
+  position: relative;
+}
+
+.table .table-row:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.table .table-row:last-child {
+  border-bottom: 0;
+  border-radius: 10px;
+}
+
+.table .table-header,
+.table .table-row {
+  display: flex;
+  border-bottom: 1px solid #cccccc;
+}
+
+.table .table-header p {
+  font-weight: 600;
+}
+
+.table .table-header p,
+.table .table-row p {
+  width: 150px;
+  font-size: 12px;
+  padding: .5rem 1rem;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+}
+
+.table .table-row .optionBox {
+  position: absolute;
+  right: -85px;
+  top: -25px;
+  padding: .5rem;
+  background: white;
+  width: 75px;
+  z-index: 46;
+  box-shadow: 0 0 9px #e1e1e1;
+  border-radius: 10px;
+}
+
+.optionBox button {
+  background-color: transparent;
+  border: 0;
+  margin-bottom: .25rem;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.optionBox button svg {
+  margin-right: .25rem;
+}
+
+.viewBtn {
+  border: 2px solid #07bc0c;
+  border-radius: 4px;
+  background: #d8ecd9;
+}
+
+.moreBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 0;
+}
+
+.table .table-header button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  font-size: 10px;
+  border: 0;
+}
+
+.table .table-header svg {
+  margin-left: 4px;
+}
+
+fieldset {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 14px;
+}
+
+legend {
+  font-weight: bold;
+  padding: 0 0.5rem;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+input {
+  width: calc(100% - 1rem);
+}
+
+select,
+.dropdown-button {
+  width: 100%;
+}
+
+.dropdown-button {
+  text-align: start;
+  background: transparent;
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+input,
+select,
+.dropdown-button {
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border: 1px solid #ccc;
+  background-color: transparent!important;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.error {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  font-size: 12px;
 }

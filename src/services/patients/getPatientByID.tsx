@@ -1,7 +1,8 @@
 // services/patients/getPatientByID.tsx
 
 const fetchPatientsByID = async (patientID: number, token: string) => {
-    console.log(patientID, token)
+    console.log("Stored AccessToekn" ,localStorage.getItem('access_token'));  // Should print the token
+    console.log(token)
     const response = await fetch(`https://rx-connect-server-l8z6.vercel.app/patient/${patientID}`, {
         method: 'GET',
         headers: {

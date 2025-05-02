@@ -12,31 +12,40 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Header from './components/Header/Header';
 import Prescriptions from './components/Prescriptions/Prescriptions';
 import PatientForm from './components/PatientForm/PatientForm';
-import { checkToken } from './utils/checkToken';
 import { setUser } from './redux/slices/user';
 import PrescriptionForm from './components/PrescriptionForm/PrescriptionForm';
+import Employees from './components/Employees/Employees';
+import EmployeeForm from './components/EmployeeForm/EmployeeForm';
+import Dashboard from './components/Dashboard/Dashboard';
+import { setAccessToken } from './redux/slices/access_token';
+import { validateToken } from './utils/checkToken';
 
 function App() {
   const user = useSelector((state: RootState) => state.user.user);
+  const accessToken = useSelector((state: RootState) => state.accessToken.accessToken)
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (accessToken && !validateToken(accessToken)) {
+    }
+  }, [accessToken]);
+
+  useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    const storedAccessToken = localStorage.getItem("access_token")
-    if (storedUser) {
+    const storedAccessToken = localStorage.getItem("access_token");
+    
+    if (storedUser && storedAccessToken) {
       try {
-        const parsedUser = JSON.parse(storedUser);
+        const parsedUser = JSON.parse(storedUser); // Only parse the user
         dispatch(setUser(parsedUser));
+        dispatch(setAccessToken(storedAccessToken));
       } catch (err) {
         console.error("Failed to parse user from localStorage:", err);
         localStorage.removeItem("user");
+        localStorage.removeItem("access_token");
       }
     }
   }, [dispatch]);
-
-  useEffect(() => {
-    checkToken({ dispatch })
-  }, [])
 
   return (
     <div className='App'>
@@ -45,6 +54,38 @@ function App() {
         {user && <Header />}
         <Routes>
           {!user && <Route path="/" element={<LoginForm />} />}
+          <Route 
+          path='/'
+          element={
+            <RequireAuth>
+              <Dashboard />
+            </RequireAuth>
+          }
+          />          
+          <Route 
+          path='/employees'
+          element={
+            <RequireAuth>
+              <Employees />
+            </RequireAuth>
+          }
+          />
+          <Route 
+          path='/new_employee'
+          element={
+            <RequireAuth>
+              <EmployeeForm />
+            </RequireAuth>
+          }
+          />
+          <Route
+            path="/edit_user/:user_id"
+            element={
+              <RequireAuth>
+                <EmployeeForm />
+              </RequireAuth>
+            }
+          />
           <Route
             path="/transfer"
             element={
@@ -119,7 +160,6 @@ function App() {
           />
         </Routes>
       </div>
-
     </div>
   );
 }

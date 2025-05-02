@@ -1,12 +1,21 @@
-// utils/dateUtils.js
-export const formatDate = (dateStr: Date) => {
+// utils/dateUtils.ts
+export const formatDate = (dateStr: string | Date) => {
     const date = new Date(dateStr);
-
+  
+    // Full date (e.g., "April 29, 2025")
     const formattedDate = date.toLocaleDateString('en-US', {
-        year: 'numeric',  // "2025"
-        month: 'long',    // "April"
-        day: 'numeric',   // "21"
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
-
-    return formattedDate;
-};
+  
+    // Short MM/YY format (e.g., "04/25")
+    const formattedMonthYear = `${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}/${date.getFullYear().toString().slice(-2)}`;
+  
+    return { 
+      formattedDate,  // "April 29, 2025"
+      formattedMonthYear,  // "04/25"
+    };
+  };

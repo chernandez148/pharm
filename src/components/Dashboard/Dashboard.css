@@ -1,0 +1,78 @@
+.Dashboard {
+    padding: .75rem;
+}
+
+.dashboard-header {
+    display: flex;
+    position: relative;
+}
+
+.dashboard-header h3 {
+    margin-right: 5px;
+}
+
+.dashboard-header button {
+    border: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+.dashboard-header .filterModel {
+    position: absolute;
+    width: 200px;
+    background: white;
+    top: 25px;
+    box-shadow: 0 0 5px 0px #b4b4b4;
+    border-radius: 8px;
+    transition: height .5s ease-in-out;
+    overflow: hidden;
+}
+
+.filterModel p {
+    font-size: 12px;
+    font-weight: 600;
+    padding: .5rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.filterModel button {
+    padding: .25rem .5rem;
+    font-size: 12px;
+}
+
+.pharmacy-analytics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-top: .5rem;
+}
+
+.chart-grid {
+    display: flex;
+    gap: 2rem;
+    margin: 1rem 0;
+}
+
+.chart-donut {
+    width: 30%;
+}
+
+.chart-bar {
+    width: 70%
+}
+
+@media(max-width: 900px) {
+    .chart-grid {
+        flex-wrap: wrap;
+    }
+
+    .chart-donut {
+        width: 100%;
+    }
+    
+    .chart-bar {
+        width: 100%
+    }
+}

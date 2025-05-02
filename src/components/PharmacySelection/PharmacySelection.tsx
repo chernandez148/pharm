@@ -51,7 +51,7 @@ function PharmacySelection({
                     {pharmacies.map((pharmacy) => (
                         <li key={pharmacy.id}>
                             <div>
-                                <strong>{pharmacy.name}</strong>
+                                <strong>{pharmacy.name} {`(#${pharmacy.id})`}</strong>
                                 <br />
                                 <small>{pharmacy.phone_number}</small>
                                 <br />

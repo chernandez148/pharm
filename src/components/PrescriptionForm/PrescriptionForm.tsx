@@ -65,7 +65,19 @@ const PrescriptionForm = () => {
         id: null,
         patient: "",
     });
-    console.log(selectedPatient)
+    const [formattedDateOfPrescription, setFormattedDateOfPrescription] = useState("");
+    const [formattedDateLastFilled, setFormattedDateLastFilled] = useState("");
+
+    useEffect(() => {
+        if (prescription.date_of_prescription) {
+            const date = new Date(prescription.date_of_prescription);
+            if (!isNaN(date.getTime())) {
+                setFormattedDateLastFilled(date.toISOString().split("T")[0]);
+                setFormattedDateOfPrescription(date.toISOString().split("T")[0]);
+            }
+        }
+    }, [prescription.date_of_prescription]);
+
     useEffect(() => {
         if (prescription?.patient) {
             setSelectedPatient({
@@ -110,8 +122,8 @@ const PrescriptionForm = () => {
                     directions_for_use: prescription.directions_for_use || "",
                     quantity: prescription.quantity || 0,
                     refills: prescription.refills || 0,
-                    date_of_prescription: prescription.date_of_prescription || "",
-                    date_last_filled: prescription.date_last_filled || "",
+                    date_of_prescription: formattedDateOfPrescription || "",
+                    date_last_filled: formattedDateLastFilled || "",
                     prescriber_full_name: prescription.prescriber_full_name || "",
                     prescriber_dea_number: prescription.prescriber_dea_number || "",
                     prescriber_contact_info: prescription.prescriber_contact_info || "",

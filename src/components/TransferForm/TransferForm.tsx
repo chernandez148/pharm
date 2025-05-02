@@ -10,7 +10,6 @@ import { usePostMutation } from "../../hooks/usePostMutation";
 import { Transfer, TransferValues } from "../../types/transfer";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFetchByID } from "../../hooks/useFetchByID";
-import { formatDate } from "../../utils/dateUtils";
 import { usePatchMutation } from "../../hooks/usePatchMutation";
 import fetchTransfersByID from "../../services/transfers/getTransferByID";
 import postTransfer from "../../services/transfers/postTransfer";
@@ -107,7 +106,7 @@ const TransferForm = () => {
                     }
                 }}
             >
-                {({ values }) => (
+                {() => (
                     <>
                         <Form className="transfer-form">
                             <h2>{transferID ? "Edit Transfer Request" : "New Transfer Request"}</h2>
