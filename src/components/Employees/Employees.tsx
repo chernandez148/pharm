@@ -41,19 +41,30 @@ function Employees() {
       <div className="employees-header">
         <h3>Employees</h3>
         <div className='employee-action-item'>
-          <button title='New Employee' onClick={() => navigate(`/new_employee`)}>
+          <button disabled={!ID || formatUserRole(user.role) !== "Admin"} title={!ID ? "No employee selected" : formatUserRole(user.role) !== "Admin" ? "Requires Admin privileges" : "Add Employee"} onClick={() => navigate(`/new_employee`)}>
             {AiOutlinePlus({})}
           </button>
-          <button disabled={!ID} title='View Employee' onClick={() => dispatch(setUserID(ID))}>
+          <button
+            disabled={!ID}
+            title={
+              !ID
+                ? "No employee selected"
+                : (formatUserRole(user.role) === "Admin" || formatUserRole(user.role) === "Pharmacist")
+                  ? "View Employee"
+                  : "Requires Admin/Pharmacist privileges"
+            }
+            onClick={() => dispatch(setUserID(ID))}
+          >
             {FaEye({})}
           </button>
           {(formatUserRole(user.role) === "Pharmacist" || formatUserRole(user.role) === "Admin") && (
-            <button disabled={!ID} title='Approve Employee'>{FiCheckCircle({})}</button>
+            <button disabled={!ID || formatUserRole(user.role) !== "Admin"} title={!ID ? "No employee selected" : formatUserRole(user.role) !== "Admin" ? "Requires Admin privileges" : "Approve Employee"}>{FiCheckCircle({})}</button>
           )}
-          <button disabled={!ID} title='Edit Employee' onClick={() => navigate(`/edit_employee/${ID}`)}>
+          <button disabled={!ID || formatUserRole(user.role) !== "Admin"} title={!ID ? "No employee selected" : formatUserRole(user.role) !== "Admin" ? "Requires Admin privileges" : "Edit Employee"} onClick={() => navigate(`/edit_employee/${ID}`)}>
             {CiEdit({})}
           </button>
-          <button disabled={!ID} title='Delete Employee' onClick={() => navigate(`/delete_employee/${ID}`)}>
+          <button disabled={!ID || formatUserRole(user.role) !== "Admin"}
+            title={!ID ? "No employee selected" : formatUserRole(user.role) !== "Admin" ? "Requires Admin privileges" : "Delete Employee"} onClick={() => navigate(`/delete_employee/${ID}`)}>
             {IoTrashSharp({})}
           </button>
         </div>

@@ -42,16 +42,20 @@ function Patients() {
                     <button title='New Patient' onClick={() => navigate(`/new_patient`)}>
                         {AiOutlinePlus({})}
                     </button>
-                    <button disabled={!ID} title='View Patient' onClick={() => dispatch(setPatientID(ID))}>
+                    <button disabled={!ID} title={!ID ? "No patient selected" : 'View Patient'} onClick={() => dispatch(setPatientID(ID))}>
                         {FaEye({})}
                     </button>
                     {(formatUserRole(user.role) === "Pharmacist" || formatUserRole(user.role) === "Admin") && (
-                        <button disabled={!ID} title='Approve Patient'>{FiCheckCircle({})}</button>
+                        <button disabled={!ID} title={!ID ? "No patient selected" : 'Approve patient'}>{FiCheckCircle({})}</button>
                     )}
-                    <button disabled={!ID} title='Edit Patient' onClick={() => navigate(`/edit_patient/${ID}`)}>
+                    <button disabled={!ID} title={!ID ? "No patient selected" : 'Edit patient'} onClick={() => navigate(`/edit_patient/${ID}`)}>
                         {CiEdit({})}
                     </button>
-                    <button disabled={!ID} title='Delete Patient' onClick={() => navigate(`/delete_patient/${ID}`)}>
+                    <button
+                        disabled={!ID || formatUserRole(user.role) !== "Admin"}
+                        title={!ID ? "No patient selected" : formatUserRole(user.role) !== "Admin" ? "Requires Admin privileges" : "Delete patient"}
+                        onClick={() => navigate(`/delete_patient/${ID}`)}
+                    >
                         {IoTrashSharp({})}
                     </button>
                 </div>

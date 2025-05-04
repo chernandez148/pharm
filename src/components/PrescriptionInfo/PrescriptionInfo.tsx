@@ -62,30 +62,30 @@ function PrescriptionInfo() {
     if (!transfer?.from_pharmacy || !prescription?.patient) {
       return false;
     }
-  
+
     // Compare pharmacy IDs (number comparison)
     const samePharmacy = transfer.from_pharmacy.id === user?.pharmacy_id;
-    
+
     // Compare patient names (case insensitive)
-    const sameFirstName = transfer.patient_first_name?.toLowerCase() === 
-                         prescription.patient.first_name?.toLowerCase();
-    const sameLastName = transfer.patient_last_name?.toLowerCase() === 
-                        prescription.patient.last_name?.toLowerCase();
-  
+    const sameFirstName = transfer.patient_first_name?.toLowerCase() ===
+      prescription.patient.first_name?.toLowerCase();
+    const sameLastName = transfer.patient_last_name?.toLowerCase() ===
+      prescription.patient.last_name?.toLowerCase();
+
     // Compare phone numbers (normalized)
     const normalizePhone = (phone: string) => phone?.replace(/\D/g, '');
-    const samePhone = normalizePhone(transfer.patient_phone_number) === 
-                     normalizePhone(prescription.patient.phone_number);
-  
+    const samePhone = normalizePhone(transfer.patient_phone_number) ===
+      normalizePhone(prescription.patient.phone_number);
+
     // Compare dates (if needed)
     const transferDob = new Date(transfer.patient_dob);
     const patientDob = new Date(prescription.patient.dob);
     const sameDob = transferDob.getTime() === patientDob.getTime();
-  
-    return samePharmacy && sameFirstName && sameLastName && samePhone && sameDob;
-  });
 
-  const transferID = transfersReceived[0]?.id
+    return samePharmacy && sameFirstName && sameLastName && samePhone && sameDob;
+  }) || [];
+
+  const transferID = transfersReceived.length > 0 ? transfersReceived[0].id : null;
 
   const updatePrescription = usePatchMutation<Prescription, PrescriptionValues>(
     ["prescriptions"],
@@ -105,13 +105,13 @@ function PrescriptionInfo() {
       toast.warning("Please select a pharmacy first");
       return;
     }
-  
+
     if (!accessToken) {
       toast.error("Authentication required");
       navigate("/login");
       return;
     }
-  
+
     if (!prescriptionID || !prescription?.patient?.id) {
       toast.error("Missing required data");
       return;
@@ -121,13 +121,13 @@ function PrescriptionInfo() {
       toast.error("No matching transfer request found. Patient information does not match.");
       return;
     }
-  
+
     setSubmitting(true);
-    
+
     try {
       // Format date once for all requests
       const completedAt = new Date().toISOString().replace('Z', '').replace(/\.\d{3}$/, '');
-      
+
       // Execute requests in parallel when possible
       const requests = [
         updatePrescription.mutateAsync({
@@ -152,20 +152,20 @@ function PrescriptionInfo() {
           completed_at: completedAt,
         }),
       ];
-  
+
       // Wait for all requests to complete
       await Promise.all(requests);
-      
+
       toast.success("Prescription sent to pharmacy successfully");
       navigate("/prescriptions");
-      
+
     } catch (error) {
       console.error("Submission failed:", error);
-      const errorMessage = error instanceof Error 
-        ? error.message 
+      const errorMessage = error instanceof Error
+        ? error.message
         : "Failed to send prescription to pharmacy";
       toast.error(errorMessage);
-      
+
       // Optionally rollback successful operations if needed
     } finally {
       setSubmitting(false);
@@ -181,7 +181,7 @@ function PrescriptionInfo() {
 
   return (
     <div
-    className={`PrescriptionInfo ${prescriptionID ? 'open' : ''}`}
+      className={`PrescriptionInfo ${prescriptionID ? 'open' : ''}`}
     >
       <h3>Prescription Info</h3>
       <div className="prescription-info-wrapper">
@@ -246,41 +246,41 @@ function PrescriptionInfo() {
         </p>
       </div>
 
-    <div className="prescription-info-action-buttons">
-    <button
-        style={{ margin: "1rem" }}
-        onClick={() => {
-          dispatch(setPrescriptionID(null));
-          setSelectedPharmacy({ id: null, pharmacy: "" });
-        }}
-      >
-        Close
-      </button>
-
-      {!selectedPharmacy.id ? (
-        <>
-          <button
-            onClick={() => setTogglePharmacySelection(true)}
-            style={{ margin: "1rem" }}
-          >
-            Send To
-          </button>
-          <PharmacySelection
-            togglePharmacySelection={togglePharmacySelection}
-            setTogglePharmacySelection={setTogglePharmacySelection}
-            setSelectedPharmacy={setSelectedPharmacy}
-          />
-        </>
-      ) : (
+      <div className="prescription-info-action-buttons">
         <button
-          onClick={handleSubmit}
-          style={{ marginLeft: "1rem" }}
-          disabled={isSubmitting}
+          style={{ margin: "1rem" }}
+          onClick={() => {
+            dispatch(setPrescriptionID(null));
+            setSelectedPharmacy({ id: null, pharmacy: "" });
+          }}
         >
-          {isSubmitting ? "Sending..." : "Send Now"}
+          Close
         </button>
-      )}
-    </div>
+
+        {!selectedPharmacy.id ? (
+          <>
+            <button
+              onClick={() => setTogglePharmacySelection(true)}
+              style={{ margin: "1rem" }}
+            >
+              Send To
+            </button>
+            <PharmacySelection
+              togglePharmacySelection={togglePharmacySelection}
+              setTogglePharmacySelection={setTogglePharmacySelection}
+              setSelectedPharmacy={setSelectedPharmacy}
+            />
+          </>
+        ) : (
+          <button
+            onClick={handleSubmit}
+            style={{ marginLeft: "1rem" }}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Sending..." : "Send Now"}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

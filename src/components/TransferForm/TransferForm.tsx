@@ -14,6 +14,7 @@ import { usePatchMutation } from "../../hooks/usePatchMutation";
 import fetchTransfersByID from "../../services/transfers/getTransferByID";
 import postTransfer from "../../services/transfers/postTransfer";
 import patchTransferByID from "../../services/transfers/patchTransferByID";
+import formatUserRole from "../../utils/formatUserRoles";
 
 // Validation schema
 const transferSchema = Yup.object().shape({
@@ -88,7 +89,11 @@ const TransferForm = () => {
                     requested_by: user.id,
                     from_pharmacy_id: selectedPharmacy.id || transfer.from_pharmacy_id || null,
                     to_pharmacy_id: user.pharmacy_id,
-                    transfer_status: transfer.transfer_status || "pending",
+                    transfer_status:
+                        transfer.transfer_status ||  // Keep existing status if present
+                        ((formatUserRole(user.role) === "Admin" || formatUserRole(user.role) === "Pharmacist")
+                            ? "in_progress"
+                            : "pending")
                 }}
                 validationSchema={transferSchema}
                 onSubmit={async (values, { setSubmitting }) => {
@@ -163,7 +168,8 @@ const TransferForm = () => {
                                     <ErrorMessage name="to_pharmacy_id" component="div" className="error" />
 
                                     <label>Status</label>
-                                    <Field as="select" name="transfer_status">
+                                    <Field as="select" name="transfer_status" disabled={!(formatUserRole(user.role) === "Admin" || formatUserRole(user.role) === "Pharmacist")}
+                                    >
                                         <option value="pending">PENDING</option>
                                         <option value="in_progress">IN PROGRESS</option>
                                         <option value="completed">COMPLETED</option>

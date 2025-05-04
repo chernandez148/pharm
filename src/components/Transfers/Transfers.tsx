@@ -18,7 +18,6 @@ import formatUserRole from '../../utils/formatUserRoles';
 
 function Transfers() {
     const user = useSelector((state: RootState) => state.user.user);
-    const transferID = useSelector((state: RootState) => state.transferID.transferID)
     const [ID, setID] = useState(null)
     const { data: transfersData, isLoading, isError } = useFetchByID({
         queryKey: "transfers",
