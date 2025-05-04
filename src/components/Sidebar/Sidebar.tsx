@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { BiSupport } from "react-icons/bi";
 import { IoMdSettings } from "react-icons/io";
+import { FaExclamation } from "react-icons/fa6";
 import "./Sidebar.css";
 
 function Sidebar() {

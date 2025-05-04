@@ -7,15 +7,17 @@ import PrescriptionInfo from '../PrescriptionInfo/PrescriptionInfo';
 import { useFetchByID } from '../../hooks/useFetchByID';
 import fetchPrescriptionsByPharmacyID from '../../services/prescriptions/getPrescriptionsByPharmacyID';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaSort } from 'react-icons/fa6';
+import { FaEye, FaSort } from 'react-icons/fa6';
 import { IoMdMore } from 'react-icons/io';
 import { useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import { IoTrashSharp } from 'react-icons/io5';
+import { AiOutlinePlus } from 'react-icons/ai';
+import formatUserRole from '../../utils/formatUserRoles';
+import { FiCheckCircle } from 'react-icons/fi';
 
 function Prescriptions() {
     const user = useSelector((state: RootState) => state.user.user);
-    const [toggleOptionBox, setToggleOptionBox] = useState(false)
     const [ID, setID] = useState(null)
     const { data: prescriptionsData, isLoading, isError } = useFetchByID({
         queryKey: "prescriptions",
@@ -36,7 +38,23 @@ function Prescriptions() {
         <div className='Prescriptions'>
             <div className='prescriptions-header'>
                 <h3>Prescriptions</h3>
-                <Link to="/new_prescription">+ Add</Link>
+                <div className='prescription-action-item'>
+                    <button title='New Prescription' onClick={() => navigate(`/new_prescription`)}>
+                        {AiOutlinePlus({})}
+                    </button>
+                    <button disabled={!ID} title='View Prescription' onClick={() => dispatch(setPrescriptionID(ID))}>
+                        {FaEye({})}
+                    </button>
+                    {(formatUserRole(user.role) === "Pharmacist" || formatUserRole(user.role) === "Admin") && (
+                        <button disabled={!ID} title='Approve Prescription'>{FiCheckCircle({})}</button>
+                    )}
+                    <button disabled={!ID} title='Edit Prescription' onClick={() => navigate(`/edit_prescription/${ID}`)}>
+                        {CiEdit({})}
+                    </button>
+                    <button disabled={!ID} title='Delete Prescription' onClick={() => navigate(`/delete_prescription/${ID}`)}>
+                        {IoTrashSharp({})}
+                    </button>
+                </div>
             </div>
             <div className='prescription-wrapper'>
                 <div className='table'>
@@ -55,7 +73,7 @@ function Prescriptions() {
                         <p>Prescriber's Full Name <button>{FaSort({})}</button></p>
                         <p>Prescriber's DEA Number <button>{FaSort({})}</button></p>
                         <p>Prescriber's Contact Info <button>{FaSort({})}</button></p>
-                        <p>Action</p>
+                        <p>Select</p>
                     </div>
                     <div className='table-body'>
                         {prescriptions.map((prescription: any, index: number) => {
@@ -78,16 +96,16 @@ function Prescriptions() {
                                     <p>{prescriber?.dea_number || 'N/A'}</p>
                                     <p>{prescriber?.contact_info || 'N/A'}</p>
                                     <p>
-                                        <button onClick={() => dispatch(setPrescriptionID(prescription.id))} className='viewBtn'>View</button>
-                                        <button className='moreBtn' onClick={() => {
-                                            setID(prescription.id)
-                                            setToggleOptionBox((prevToggle) => !prevToggle)
-                                        }}>{IoMdMore({})}</button>
-                                    </p>  
-                                    <div className='optionBox' style={{ display: toggleOptionBox && prescription.id === ID ? "block" : "none" }}>
-                                        <button onClick={() => navigate(`/edit_prescription/${prescription.id}`)}>{CiEdit({})} Edit</button>
-                                        <button onClick={() => navigate(`/delete_prescription/${prescription.id}`)}>{IoTrashSharp({})} Delete</button>
-                                    </div>                       
+                                        <button
+                                            className='moreBtn'
+                                        >
+                                            <input
+                                                type='radio'
+                                                checked={ID === prescription.id}
+                                                onChange={() => setID(prescription.id)}
+                                            />
+                                        </button>
+                                    </p>
                                 </div>
                             );
                         })}

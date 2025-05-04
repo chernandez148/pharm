@@ -40,31 +40,6 @@
   align-items: center;
 }
 
-.table .table-row .optionBox {
-  position: absolute;
-  right: -85px;
-  top: -25px;
-  padding: .5rem;
-  background: white;
-  width: 75px;
-  z-index: 46;
-  box-shadow: 0 0 9px #e1e1e1;
-  border-radius: 10px;
-}
-
-.optionBox button {
-  background-color: transparent;
-  border: 0;
-  margin-bottom: .25rem;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-}
-
-.optionBox button svg {
-  margin-right: .25rem;
-}
-
 .viewBtn {
   border: 2px solid #07bc0c;
   border-radius: 4px;
@@ -77,6 +52,11 @@
   justify-content: center;
   background-color: transparent;
   border: 0;
+}
+
+.moreBtn input {
+  width: initial;
+  margin: 0;
 }
 
 .table .table-header button {
@@ -136,7 +116,7 @@ select,
   padding: 0.5rem;
   margin-top: 0.25rem;
   border: 1px solid #ccc;
-  background-color: transparent!important;
+  background-color: transparent !important;
   border-radius: 6px;
   font-size: 1rem;
 }

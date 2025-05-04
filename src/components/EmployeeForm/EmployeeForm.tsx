@@ -13,7 +13,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 
 // Validation schema
-const employeeSchema = (isEditMode: boolean) => 
+const employeeSchema = (isEditMode: boolean) =>
   Yup.object().shape({
     first_name: Yup.string().required("Required"),
     last_name: Yup.string().required("Required"),
@@ -22,8 +22,8 @@ const employeeSchema = (isEditMode: boolean) =>
     role: Yup.string()
       .oneOf(Object.values(EmployeeRole), 'Invalid role')
       .required("Required"),
-    password: isEditMode 
-      ? Yup.string().notRequired() 
+    password: isEditMode
+      ? Yup.string().notRequired()
       : Yup.string().required("Required"),
   });
 
@@ -31,8 +31,8 @@ function EmployeeForm() {
   const accessToken = useSelector(
     (state: RootState) => state.accessToken.accessToken
   );
-  const { user_id } = useParams<{ user_id: string }>();
-  const userID = user_id ? Number(user_id) : null;
+  const { employee_id } = useParams<{ employee_id: string }>();
+  const userID = employee_id ? Number(employee_id) : null;
   const isEditMode = !!userID;
 
   const {
@@ -55,6 +55,8 @@ function EmployeeForm() {
   );
 
   const user = userData?.user || {};
+
+  console.log(userID)
 
   const handleSubmit = async (values: EmployeeValues) => {
     try {
@@ -93,7 +95,7 @@ function EmployeeForm() {
             <div className="employee-form-wrapper">
               <fieldset>
                 <legend>Employee Info</legend>
-                
+
                 <label>First Name</label>
                 <Field name="first_name" />
                 <ErrorMessage name="first_name" component="div" className="error" />
@@ -133,8 +135,8 @@ function EmployeeForm() {
                 {isSubmitting
                   ? "Processing..."
                   : isEditMode
-                  ? "Update Employee"
-                  : "Add Employee"}
+                    ? "Update Employee"
+                    : "Add Employee"}
               </button>
             </div>
           </Form>

@@ -11,17 +11,24 @@ import { useEffect, useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import { IoTrashSharp } from 'react-icons/io5';
 import { setTransferID } from '../../redux/slices/transferID';
+import { FiCheckCircle } from "react-icons/fi";
+import { AiOutlinePlus } from "react-icons/ai";
+import { FaEye } from "react-icons/fa";
+import formatUserRole from '../../utils/formatUserRoles';
 
 function Transfers() {
     const user = useSelector((state: RootState) => state.user.user);
+    const transferID = useSelector((state: RootState) => state.transferID.transferID)
+    const [ID, setID] = useState(null)
     const { data: transfersData, isLoading, isError } = useFetchByID({
         queryKey: "transfers",
         queryFn: fetchTransfersByPharmacyID,
         id: user?.pharmacy_id,
     });
-    const [activeOptionBoxId, setActiveOptionBoxId] = useState<number | null>(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    console.log(user)
 
     const statusColors = {
         pending: '#FFF3B0',      // pastel yellow
@@ -31,21 +38,6 @@ function Transfers() {
     };
 
     const getStatusColor = (status: string) => statusColors[status] || '#E0E0E0';
-
-    const handleMoreClick = (id: number, e: React.MouseEvent) => {
-        e.stopPropagation();
-        setActiveOptionBoxId(activeOptionBoxId === id ? null : id);
-    };
-
-    const closeOptionBox = () => {
-        setActiveOptionBoxId(null);
-    };
-
-    useEffect(() => {
-        const handleClickOutside = () => closeOptionBox();
-        document.addEventListener('click', handleClickOutside);
-        return () => document.removeEventListener('click', handleClickOutside);
-    }, []);
 
     if (isLoading) return <div>Loading transfers...</div>;
     if (isError) return <div>Error loading transfers.</div>;
@@ -71,12 +63,28 @@ function Transfers() {
     };
 
     return (
-        <div className='Transfers' onClick={closeOptionBox}>
+        <div className='Transfers'>
             <div className='transfers-header'>
                 <h3>Transfer Requests Sent</h3>
-                <Link to="/new_transfer">+ Add</Link>
+                <div className='transfer-action-item'>
+                    <button title='New Transfer' onClick={() => navigate(`/new_transfer`)}>
+                        {AiOutlinePlus({})}
+                    </button>
+                    <button disabled={!ID} title='View Transfer' onClick={() => dispatch(setTransferID(ID))}>
+                        {FaEye({})}
+                    </button>
+                    {(formatUserRole(user.role) === "Pharmacist" || formatUserRole(user.role) === "Admin") && (
+                        <button disabled={!ID} title='Approve Transfer'>{FiCheckCircle({})}</button>
+                    )}
+                    <button disabled={!ID} title='Edit Transfer' onClick={() => navigate(`/edit_transfer/${ID}`)}>
+                        {CiEdit({})}
+                    </button>
+                    <button disabled={!ID} title='Delete Transfer' onClick={() => navigate(`/delete_transfer/${ID}`)}>
+                        {IoTrashSharp({})}
+                    </button>
+                </div>
             </div>
-            
+
             <div className='transfer-requests-sent'>
                 <div className='table'>
                     <div className='table-header'>
@@ -92,7 +100,7 @@ function Transfers() {
                         <p>Status <button>{FaSort({})}</button></p>
                         <p>Completed By <button>{FaSort({})}</button></p>
                         <p>Completed At <button>{FaSort({})}</button></p>
-                        <p>Action</p>
+                        <p>Select</p>
                     </div>
                     <div className='table-body'>
                         {transfersSent.map((transfer: any, index: number) => (
@@ -112,32 +120,16 @@ function Transfers() {
                                 <p>{renderName(transfer.completer?.first_name, transfer.completer?.last_name)}</p>
                                 <p>{renderDate(transfer.completed_at)}</p>
                                 <p>
-                                    <button 
-                                        onClick={() => dispatch(setTransferID(transfer.id))} 
-                                        className='viewBtn'
+                                    <button
+                                        className='moreBtn'
                                     >
-                                        View
+                                        <input
+                                            type='radio'
+                                            checked={ID === transfer.id}
+                                            onChange={() => setID(transfer.id)}
+                                        />
                                     </button>
-                                    <button 
-                                        className='moreBtn' 
-                                        onClick={(e) => handleMoreClick(transfer.id, e)}
-                                    >
-                                        {IoMdMore({})}
-                                    </button>
-                                </p>  
-                                {activeOptionBoxId === transfer.id && (
-                                    <div 
-                                        className='optionBox'
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <button onClick={() => navigate(`/edit_transfer/${transfer.id}`)}>
-                                            {CiEdit({})} Edit
-                                        </button>
-                                        <button onClick={() => navigate(`/delete_transfer/${transfer.id}`)}>
-                                            {IoTrashSharp({})} Delete
-                                        </button>
-                                    </div>
-                                )}
+                                </p>
                             </div>
                         ))}
                     </div>
@@ -160,7 +152,7 @@ function Transfers() {
                         <p>Status <button>{FaSort({})}</button></p>
                         <p>Completed By <button>{FaSort({})}</button></p>
                         <p>Completed At <button>{FaSort({})}</button></p>
-                        <p>Action</p>
+                        <p>Select</p>
                     </div>
                     <div className='table-body'>
                         {transfersReceived.map((transfer: any, index: number) => (
@@ -180,32 +172,16 @@ function Transfers() {
                                 <p>{renderName(transfer.completer?.first_name, transfer.completer?.last_name)}</p>
                                 <p>{renderDate(transfer.completed_at)}</p>
                                 <p>
-                                    <button 
-                                        onClick={() => dispatch(setTransferID(transfer.id))} 
-                                        className='viewBtn'
+                                    <button
+                                        className='moreBtn'
                                     >
-                                        View
+                                        <input
+                                            type='radio'
+                                            checked={ID === transfer.id}
+                                            onChange={() => setID(transfer.id)}
+                                        />
                                     </button>
-                                    <button 
-                                        className='moreBtn' 
-                                        onClick={(e) => handleMoreClick(transfer.id, e)}
-                                    >
-                                        {IoMdMore({})}
-                                    </button>
-                                </p>  
-                                {activeOptionBoxId === transfer.id && (
-                                    <div 
-                                        className='optionBox'
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <button onClick={() => navigate(`/edit_transfer/${transfer.id}`)}>
-                                            {CiEdit({})} Edit
-                                        </button>
-                                        <button onClick={() => navigate(`/delete_transfer/${transfer.id}`)}>
-                                            {IoTrashSharp({})} Delete
-                                        </button>
-                                    </div>
-                                )}
+                                </p>
                             </div>
                         ))}
                     </div>

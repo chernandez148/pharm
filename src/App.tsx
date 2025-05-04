@@ -34,7 +34,7 @@ function App() {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     const storedAccessToken = localStorage.getItem("access_token");
-    
+
     if (storedUser && storedAccessToken) {
       try {
         const parsedUser = JSON.parse(storedUser); // Only parse the user
@@ -67,32 +67,32 @@ function App() {
         {user && <Header />}
         <Routes>
           {!user && <Route path="/" element={<LoginForm />} />}
-          <Route 
-          path='/'
-          element={
-            <RequireAuth>
-              <Dashboard />
-            </RequireAuth>
-          }
-          />          
-          <Route 
-          path='/employees'
-          element={
-            <RequireAuth>
-              <Employees />
-            </RequireAuth>
-          }
-          />
-          <Route 
-          path='/new_employee'
-          element={
-            <RequireAuth>
-              <EmployeeForm />
-            </RequireAuth>
-          }
+          <Route
+            path='/'
+            element={
+              <RequireAuth>
+                <Dashboard />
+              </RequireAuth>
+            }
           />
           <Route
-            path="/edit_user/:user_id"
+            path='/employees'
+            element={
+              <RequireAuth>
+                <Employees />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path='/new_employee'
+            element={
+              <RequireAuth>
+                <EmployeeForm />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/edit_employee/:employee_id"
             element={
               <RequireAuth>
                 <EmployeeForm />

@@ -6,15 +6,18 @@ import { useFetchByID } from "../../hooks/useFetchByID";
 import fetchEmployeesByPharmacyID from "../../services/employees/getEmployees";
 import { Employee } from "../../types/employees";
 import { setUserID } from "../../redux/slices/userID";
-import { FaSort } from 'react-icons/fa6';
+import { FaEye, FaSort } from 'react-icons/fa6';
 import { IoMdMore } from 'react-icons/io';
 import { useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import { IoTrashSharp } from 'react-icons/io5';
+import { AiOutlinePlus } from 'react-icons/ai';
+import formatUserRole from '../../utils/formatUserRoles';
+import { FiCheckCircle } from 'react-icons/fi';
 
 function Employees() {
   const user = useSelector((state: RootState) => state.user.user);
-  const [toggleOptionBox, setToggleOptionBox] = useState(false)
+  const [ID, setID] = useState(null)
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
@@ -37,7 +40,23 @@ function Employees() {
     <div className="Employees">
       <div className="employees-header">
         <h3>Employees</h3>
-        <Link to="/new_employee">+ Add</Link>
+        <div className='employee-action-item'>
+          <button title='New Employee' onClick={() => navigate(`/new_employee`)}>
+            {AiOutlinePlus({})}
+          </button>
+          <button disabled={!ID} title='View Employee' onClick={() => dispatch(setUserID(ID))}>
+            {FaEye({})}
+          </button>
+          {(formatUserRole(user.role) === "Pharmacist" || formatUserRole(user.role) === "Admin") && (
+            <button disabled={!ID} title='Approve Employee'>{FiCheckCircle({})}</button>
+          )}
+          <button disabled={!ID} title='Edit Employee' onClick={() => navigate(`/edit_employee/${ID}`)}>
+            {CiEdit({})}
+          </button>
+          <button disabled={!ID} title='Delete Employee' onClick={() => navigate(`/delete_employee/${ID}`)}>
+            {IoTrashSharp({})}
+          </button>
+        </div>
       </div>
       <div className="employee-wrapper">
         <div className="table">
@@ -47,7 +66,7 @@ function Employees() {
             <p>Username <button>{FaSort({})}</button></p>
             <p>Email <button>{FaSort({})}</button></p>
             <p>Role <button>{FaSort({})}</button></p>
-            <p>Action</p>
+            <p>Select</p>
           </div>
           <div className="table-body">
             {users?.map((user: Employee, index: number) => {
@@ -59,15 +78,16 @@ function Employees() {
                   <p>{user.email}</p>
                   <p>{user.role}</p>
                   <p>
-                    <button className='viewBtn'>View</button>
-                    <button className='moreBtn' onClick={() => {
-                        setToggleOptionBox((prevToggle) => !prevToggle)
-                    }}>{IoMdMore({})}</button>
-                </p>
-                <div className='optionBox' style={{ display: toggleOptionBox ? "block" : "none" }}>
-                    <button onClick={() => navigate(`/edit_user/${user.id}`)}>{CiEdit({})} Edit</button>
-                    <button onClick={() => navigate(`/delete_user/${user.id}`)}>{IoTrashSharp({})} Delete</button>
-                </div>
+                    <button
+                      className='moreBtn'
+                    >
+                      <input
+                        type='radio'
+                        checked={ID === user.id}
+                        onChange={() => setID(user.id)}
+                      />
+                    </button>
+                  </p>
                 </div>
               );
             })}

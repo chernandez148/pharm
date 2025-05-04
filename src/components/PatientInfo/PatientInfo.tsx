@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { formatDate } from '../../utils/dateUtils';
 import { LiaPrescriptionSolid } from "react-icons/lia";
-import { setUserID } from '../../redux/slices/userID';
+import { setPatientID } from '../../redux/slices/patientID';
 import SearchForm from '../SearchForm/SearchForm';
 import { useFetchByID } from '../../hooks/useFetchByID';
 import fetchPatientsByID from '../../services/patients/getPatientByID';
@@ -11,11 +11,11 @@ import fetchPatientsByID from '../../services/patients/getPatientByID';
 
 function PatientInfo() {
     const accessToken = useSelector((state: RootState) => state.accessToken.accessToken)
-    const userID = useSelector((state: RootState) => state.userID.userID)
+    const patientID = useSelector((state: RootState) => state.patientID.patientID)
     const { data: patientData, isLoading, isError } = useFetchByID({
         queryKey: "patient",
         queryFn: fetchPatientsByID,
-        id: userID,
+        id: patientID,
         token: accessToken
     });
     const dispatch = useDispatch()
@@ -23,7 +23,7 @@ function PatientInfo() {
     const patient = patientData?.patient || []
 
     return (
-        <div className='PatientInfo' style={{ width: userID ? "300px" : "0" }}>
+        <div className='PatientInfo' style={{ width: patientID ? "300px" : "0" }}>
             <h3>Patient Info</h3>
             <div className='patient-info-wrapper'>
                 <p><strong>Private Info:</strong></p>
@@ -44,7 +44,7 @@ function PatientInfo() {
                     )
                 })}
             </div>
-            <button style={{ margin: "1rem" }} onClick={() => dispatch(setUserID(null))}>Close</button>
+            <button style={{ margin: "1rem" }} onClick={() => dispatch(setPatientID(null))}>Close</button>
         </div>
     )
 }

@@ -5,6 +5,22 @@
     padding: 1rem 1rem 0 1rem;
 }
 
+.transfer-action-item {
+    display: flex
+}
+
+.transfer-action-item button {
+    margin-left: .5rem;
+    background-color: transparent;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+}
+
 .transfers-header a {
     border: 2px solid #07bc0c;
     border-radius: 4px;
@@ -82,7 +98,7 @@
 .transfer-requests-sent .table .table-header p:nth-child(10),
 .transfer-requests-sent .table .table-row p:nth-child(10),
 .transfer-requests-received .table .table-header p:nth-child(10),
-.transfer-requests-received .table .table-row p:nth-child(10)  {
+.transfer-requests-received .table .table-row p:nth-child(10) {
     width: 100px;
 }
 
@@ -104,5 +120,5 @@
 .transfer-requests-sent .table .table-row p:nth-child(13),
 .transfer-requests-received .table .table-header p:nth-child(13),
 .transfer-requests-received .table .table-row p:nth-child(13) {
-    width: 60px;
+    width: 40px;
 }

@@ -28,9 +28,18 @@ const prescriptionSchema = Yup.object().shape({
     refills: Yup.number().required("Refills are required").min(0, "Refills cannot be negative"),
     date_of_prescription: Yup.date().required("Date of Prescription is required"),
     date_last_filled: Yup.date().required("Date Last Filled is required"),
-    prescriber_full_name: Yup.string(),
-    prescriber_dea_number: Yup.string(),
-    prescriber_contact_info: Yup.string(),
+    prescriber_full_name: Yup.string().when('is_controlled', {
+        is: (is_controlled: boolean) => is_controlled,
+        then: (schema) => schema.required('Prescriber full name is required for controlled substances'),
+    }),
+    prescriber_dea_number: Yup.string().when('is_controlled', {
+        is: (is_controlled: boolean) => is_controlled,
+        then: (schema) => schema.required('DEA number is required for controlled substances'),
+    }),
+    prescriber_contact_info: Yup.string().when('is_controlled', {
+        is: (is_controlled: boolean) => is_controlled,
+        then: (schema) => schema.required('Prescriber contact info is required for controlled substances'),
+    }),
 });
 
 const PrescriptionForm = () => {
@@ -48,11 +57,11 @@ const PrescriptionForm = () => {
     });
 
     const createPrescription = usePostMutation<Prescription, PrescriptionValues>(
-        ["prescriptions"], 
+        ["prescriptions"],
         postPrescription
     );
     const updatePrescription = usePatchMutation<Prescription, PrescriptionValues>(
-        ["prescriptions"], 
+        ["prescriptions"],
         (values) => patchPrescriptionByID(values, accessToken)
     );
 
@@ -182,9 +191,9 @@ const PrescriptionForm = () => {
                                     <label>Is Controlled?</label>
                                     <div className="radio-group">
                                         <label style={{ marginRight: ".5rem" }}>
-                                            <input 
-                                                name="is_controlled" 
-                                                type="radio" 
+                                            <input
+                                                name="is_controlled"
+                                                type="radio"
                                                 checked={values.is_controlled === true}
                                                 onChange={() => setFieldValue("is_controlled", true)}
                                                 className="radio-input"
@@ -192,9 +201,9 @@ const PrescriptionForm = () => {
                                             <span className="radio-label">Yes</span>
                                         </label>
                                         <label>
-                                            <input 
-                                                name="is_controlled" 
-                                                type="radio" 
+                                            <input
+                                                name="is_controlled"
+                                                type="radio"
                                                 checked={values.is_controlled === false}
                                                 onChange={() => setFieldValue("is_controlled", false)}
                                                 className="radio-input"
@@ -204,7 +213,7 @@ const PrescriptionForm = () => {
                                     </div>
                                     <ErrorMessage name="is_controlled" component="div" className="error" />
                                 </div>
-                                
+
                                 <label>Directions For Use</label>
                                 <Field name="directions_for_use" as="textarea" />
                                 <ErrorMessage name="directions_for_use" component="div" className="error" />
@@ -226,21 +235,23 @@ const PrescriptionForm = () => {
                                 <ErrorMessage name="date_last_filled" component="div" className="error" />
                             </fieldset>
 
-                            <fieldset>
-                                <legend>Prescriber Info</legend>
+                            {values.is_controlled === true && (
+                                <fieldset>
+                                    <legend>Prescriber Info</legend>
 
-                                <label>Prescriber's Full Name</label>
-                                <Field name="prescriber_full_name" />
-                                <ErrorMessage name="prescriber_full_name" component="div" className="error" />
+                                    <label>Prescriber's Full Name</label>
+                                    <Field name="prescriber_full_name" />
+                                    <ErrorMessage name="prescriber_full_name" component="div" className="error" />
 
-                                <label>Prescriber's DEA Number</label>
-                                <Field name="prescriber_dea_number" />
-                                <ErrorMessage name="prescriber_dea_number" component="div" className="error" />
+                                    <label>Prescriber's DEA Number</label>
+                                    <Field name="prescriber_dea_number" />
+                                    <ErrorMessage name="prescriber_dea_number" component="div" className="error" />
 
-                                <label>Prescriber's Contact Info</label>
-                                <Field name="prescriber_contact_info" />
-                                <ErrorMessage name="prescriber_contact_info" component="div" className="error" />
-                            </fieldset>
+                                    <label>Prescriber's Contact Info</label>
+                                    <Field name="prescriber_contact_info" />
+                                    <ErrorMessage name="prescriber_contact_info" component="div" className="error" />
+                                </fieldset>
+                            )}
 
                             <button type="submit" disabled={isSubmitting}>
                                 {isSubmitting ? "Processing..." : prescriptionID ? "Update Prescription" : "Add Prescription"}

@@ -5,6 +5,22 @@
     padding: 1rem 1rem 0 1rem;
 }
 
+.prescription-action-item {
+    display: flex
+}
+
+.prescription-action-item button {
+    margin-left: .5rem;
+    background-color: transparent;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+}
+
 .prescriptions-header a {
     border: 2px solid #07bc0c;
     border-radius: 4px;
@@ -85,5 +101,5 @@
 
 .prescription-wrapper .table .table-header p:nth-child(15),
 .prescription-wrapper .table .table-row p:nth-child(15) {
-    width: 60px;
+    width: 40px;
 }
