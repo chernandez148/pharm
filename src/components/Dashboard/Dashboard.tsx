@@ -14,17 +14,17 @@ import './Dashboard.css'
 function Dashboard() {
   const user = useSelector((state: RootState) => state.user.user);
   const [toggleFilter, setToggleFilter] = useState(false);
-  
-  const { 
-    data: transfersData, 
-    isLoading, 
-    isError 
+
+  const {
+    data: transfersData,
+    isLoading,
+    isError
   } = useFetchByID({
     queryKey: "transfers",
     queryFn: fetchTransfersByPharmacyID,
     id: user?.pharmacy_id,
   });
-  
+
   // Memoize transfers data and filtered sets
   const { transfers, transfersSent, transfersReceived } = useMemo(() => {
     const transfers = transfersData?.transfers || [];
@@ -60,7 +60,7 @@ function Dashboard() {
       const dateKey = formatDate(transfer.created_at).formattedDate;
       const shortDateKey = formatDate(transfer.created_at).formattedMonthYear;
       const status = transfer.transfer_status as keyof Omit<DailyTransfer, 'date'>;
-      
+
       if (!acc[dateKey]) {
         acc[dateKey] = {
           date: shortDateKey,
@@ -70,7 +70,7 @@ function Dashboard() {
           cancelled: 0
         };
       }
-      
+
       acc[dateKey][status]++;
       return acc;
     }, {});
@@ -111,28 +111,28 @@ function Dashboard() {
       ]
     },
     donutChartData: {
- options: {
-      chart: {
-        type: 'donut' as const, // Explicitly type as 'donut'
-        width: '50%',
-      },
-      labels: ['Completed', 'In Progress', 'Pending', 'Cancelled'],
-      colors: ['#B9FBC0', '#A0C4FF', '#FFF3B0', '#FFADAD'],
-      legend: {
-        position: 'left' as const,
-      },
-      responsive: [{
-        breakpoint: 1200,
-        options: {
-          chart: {
-            width: '100%'
-          },
-          legend: {
-            position: 'top' as const
+      options: {
+        chart: {
+          type: 'donut' as const, // Explicitly type as 'donut'
+          width: '50%',
+        },
+        labels: ['Completed', 'In Progress', 'Pending', 'Cancelled'],
+        colors: ['#B9FBC0', '#A0C4FF', '#FFF3B0', '#FFADAD'],
+        legend: {
+          position: 'left' as const,
+        },
+        responsive: [{
+          breakpoint: 1200,
+          options: {
+            chart: {
+              width: '100%'
+            },
+            legend: {
+              position: 'top' as const
+            }
           }
-        }
-      }]
-    },
+        }]
+      },
       series: [
         statusCounts.completed,
         statusCounts.in_progress,
@@ -153,7 +153,7 @@ function Dashboard() {
           {IoFilterSharp({})}
         </button>
         {toggleFilter && (
-          <TransferFilter 
+          <TransferFilter
             currentFilter={transferFilter}
             onFilterChange={setTransferFilter}
             setToggleFilter={setToggleFilter}
@@ -165,27 +165,27 @@ function Dashboard() {
           />
         )}
       </div>
-      
+
       <div className='pharmacy-analytics'>
-        <Card 
+        <Card
           title="Completed Transfers"
           number={statusCounts.completed}
           icon="FaFilePrescription"
           color="#B9FBC0"
         />
-        <Card 
+        <Card
           title="Transfers In Progress"
           number={statusCounts.in_progress}
           icon="FaFilePrescription"
           color="#A0C4FF"
         />
-        <Card 
+        <Card
           title="Pending Transfers"
           number={statusCounts.pending}
           icon="FaFilePrescription"
           color="#FFF3B0"
         />
-        <Card 
+        <Card
           title="Cancelled Transfers"
           number={statusCounts.cancelled}
           icon="FaFilePrescription"
@@ -205,7 +205,7 @@ function Dashboard() {
         </div>
 
         <div className='chart-bar'>
-          <h3>Daily Transfers</h3>
+          <h3>Monthly Transfers</h3>
           <Chart
             options={barChartData.options}
             series={barChartData.series}

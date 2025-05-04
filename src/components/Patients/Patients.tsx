@@ -45,9 +45,6 @@ function Patients() {
                     <button disabled={!ID} title={!ID ? "No patient selected" : 'View Patient'} onClick={() => dispatch(setPatientID(ID))}>
                         {FaEye({})}
                     </button>
-                    {(formatUserRole(user.role) === "Pharmacist" || formatUserRole(user.role) === "Admin") && (
-                        <button disabled={!ID} title={!ID ? "No patient selected" : 'Approve patient'}>{FiCheckCircle({})}</button>
-                    )}
                     <button disabled={!ID} title={!ID ? "No patient selected" : 'Edit patient'} onClick={() => navigate(`/edit_patient/${ID}`)}>
                         {CiEdit({})}
                     </button>
